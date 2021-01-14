@@ -546,14 +546,15 @@ function wyswietl($sql)
         die("ERROR: Could not connect. " . pg_last_error());
     }
     $result = pg_query($link, $sql);
-
+    echo $result;
+    echo pg_num_rows($result);
     if (pg_num_rows($result) > 0) {
     // output data of each row
-    while($row = pg_fetch_assoc($result)) {
-    echo $row['wynik'];
-    }
+        while($row = pg_fetch_assoc($result)) {
+        echo $row['wynik'];
+        }
     } else {
-    echo "xD";
+        echo "0";
     }
 
     pg_close($link);
