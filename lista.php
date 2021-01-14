@@ -182,7 +182,7 @@
                         <div class="card-body">
                             <div class="table-responsive">
                                 <?php
-                                    $link = mysqli_connect("localhost", "root", "", "baza_aplikacja");
+                                    $link = pg_connect("host=resourcemanagerdb.postgres.database.azure.com dbname=baza_aplikacja user=resourcemanager@resourcemanagerdb password=Trzmielu123") 
                                     $sql = "
                                     SELECT MODEL, NR_SERYJNY, RODZAJ_SPRZĘTU, NAZWA_UZYTKOWNIKA, STANOWISKO, STATUS, TERMIN, sprzet AS id_sprzet, dodatkowy_opis FROM
                                     (SELECT MODEL, NR_SERYJNY, RODZAJ_SPRZĘTU, NAZWA_UZYTKOWNIKA, STANOWISKO, STATUS, termin_wygasniecia AS 'TERMIN', t1.id_sprzet AS 'sprzet' FROM
@@ -202,11 +202,11 @@
                                     RIGHT JOIN dane_techniczne_sprzetu t2 ON t1.sprzet = t2.id_sprzet
                                     ORDER BY TERMIN ASC";
 
-                                    $wyniki = mysqli_query($link, $sql);
+                                    $wyniki = pg_query($link, $sql);
                                     echo "<form method='POST' action='lista.php' autocomplete='off'>";
                                     echo "<table class='table table-bordered' id='dataTable'width='100%' cellspacing='0'>";
                                     echo "<thead><tr><th onclick='sortTable(0)'>" . 'MODEL' . "</th><th onclick='sortTable(1)'>" . 'NR SERYJNY' . "</th><th onclick='sortTable(2)'>" . 'RODZAJ SPRZĘTU' . "</th><th onclick='sortTable(3)'>" . 'DODATKOWE INFORMACJE' . "</th><th onclick='sortTable(4)'>" . 'NAZWA UŻYTKOWNIKA' . "</th><th onclick='sortTable(5)'>" . 'STANOWISKO' . "</th><th onclick='sortTable(6)'>" . 'STATUS' . "</th><th onclick='sortTable(7)'>" . 'TERMIN' . "</th></tr></thead><tbody>";
-                                    while($row = mysqli_fetch_array($wyniki)){
+                                    while($row = pg_fetch_array($wyniki)){
                                       if($row['STATUS'] == "W użyciu"){
                                         echo "<tr><input type='hidden' disabled name='id_sprzet' value='".$row['id_sprzet']."'><td>" . $row['MODEL'] . "</td><td style='cursor:pointer;' onclick='detale(this)'>" . $row['NR_SERYJNY'] . "</td><td>" . $row['RODZAJ_SPRZĘTU'] . "</td><td>" . $row['dodatkowy_opis'] . "</td><td>" . $row['NAZWA_UZYTKOWNIKA'] . "</td><td>" . $row['STANOWISKO'] . "</td><td style='color:#00FF04;'>" . $row['STATUS'] . "</td><td class='data'>" . $row['TERMIN'] . "</td></tr>"; 
                                         }
@@ -220,7 +220,7 @@
                                       
                                     echo "</tbody></table></form>";
 
-                                    mysqli_close($link);
+                                    pg_close($link);
                                 ?>
                             </div>
                         </div>
@@ -278,17 +278,17 @@
 
 <?php
   $options = '';
-  $link = mysqli_connect("localhost", "root", "", "baza_aplikacja");
+  $link = pg_connect("host=resourcemanagerdb.postgres.database.azure.com dbname=baza_aplikacja user=resourcemanager@resourcemanagerdb password=Trzmielu123")
     if($link === false){
-      die("ERROR: Could not connect. " . mysqli_connect_error());
+      die("ERROR: Could not connect. " . pg_last_error());
     }
     $sql = "SELECT id, nazwa_uzytkownika FROM pracownik";
-    $result = mysqli_query($link, $sql);
-    while($row = mysqli_fetch_assoc($result)) {
+    $result = pg_query($link, $sql);
+    while($row = pg_fetch_assoc($result)) {
         $options .= '<option value="'.$row["id"].'">'.$row["nazwa_uzytkownika"]."</option>'+'";
     }
 
-    mysqli_close($link);
+    pg_close($link);
 ?>
 
 <script type="text/javascript">
