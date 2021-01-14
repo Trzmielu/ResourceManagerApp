@@ -183,24 +183,48 @@
                             <div class="table-responsive">
                                 <?php
                                     $link = mysqli_connect("localhost", "root", "", "baza_aplikacja");
-                                    $sql = "
-                                    SELECT MODEL, NR_SERYJNY, RODZAJ_SPRZĘTU, NAZWA_UZYTKOWNIKA, STANOWISKO, STATUS, TERMIN, sprzet AS id_sprzet, dodatkowy_opis FROM
-                                    (SELECT MODEL, NR_SERYJNY, RODZAJ_SPRZĘTU, NAZWA_UZYTKOWNIKA, STANOWISKO, STATUS, termin_wygasniecia AS 'TERMIN', t1.id_sprzet AS 'sprzet' FROM
-                                    (SELECT model AS 'MODEL', nr_seryjny AS 'NR_SERYJNY', rodzaj AS 'RODZAJ_SPRZĘTU', nazwa_uzytkownika AS 'NAZWA_UZYTKOWNIKA', stanowisko AS 'STANOWISKO', status AS 'STATUS', sprzet.id AS 'id_sprzet'FROM pracownik
-                                    RIGHT JOIN status ON pracownik.id = status.id_pracownik
-                                    LEFT JOIN sprzet ON status.id_sprzet = sprzet.id 
-                                    UNION 
-                                    SELECT model AS 'MODEL', nr_seryjny AS 'NR_SERYJNY', rodzaj AS 'RODZAJ_SPRZĘTU',  nazwa_uzytkownika AS 'NAZWA_UZYTKOWNIKA', stanowisko AS 'STANOWISKO', status AS 'STATUS', sprzet.id AS 'id_sprzet' FROM pracownik
-                                    RIGHT JOIN status ON pracownik.id = status.id_pracownik
-                                    LEFT JOIN sprzet ON status.id_sprzet = sprzet.id 
-                                    UNION
-                                    SELECT model AS 'MODEL', nr_seryjny AS 'NR_SERYJNY', rodzaj AS 'RODZAJ_SPRZĘTU',  nazwa_uzytkownika AS 'NAZWA_UZYTKOWNIKA', stanowisko AS 'STANOWISKO', status AS 'STATUS', sprzet.id AS 'id_sprzet' FROM pracownik
-                                    RIGHT JOIN status ON pracownik.id = status.id_pracownik
-                                    RIGHT JOIN sprzet ON status.id_sprzet = sprzet.id
-                                    ORDER BY status DESC) t1
-                                    RIGHT JOIN dane_ksiegowe_sprzetu t2 ON t1.id_sprzet = t2.id_sprzet) t1
-                                    RIGHT JOIN dane_techniczne_sprzetu t2 ON t1.sprzet = t2.id_sprzet
-                                    ORDER BY TERMIN ASC";
+                                    if(isset($_GET['status']) && isset($_GET['rodzaj'])){
+                                        $sql = "
+                                        SELECT MODEL, NR_SERYJNY, RODZAJ_SPRZĘTU, NAZWA_UZYTKOWNIKA, STANOWISKO, STATUS, TERMIN, sprzet AS id_sprzet, dodatkowy_opis FROM
+                                        (SELECT MODEL, NR_SERYJNY, RODZAJ_SPRZĘTU, NAZWA_UZYTKOWNIKA, STANOWISKO, STATUS, termin_wygasniecia AS 'TERMIN', t1.id_sprzet AS 'sprzet' FROM
+                                        (SELECT model AS 'MODEL', nr_seryjny AS 'NR_SERYJNY', rodzaj AS 'RODZAJ_SPRZĘTU', nazwa_uzytkownika AS 'NAZWA_UZYTKOWNIKA', stanowisko AS 'STANOWISKO', status AS 'STATUS', sprzet.id AS 'id_sprzet'FROM pracownik
+                                        RIGHT JOIN status ON pracownik.id = status.id_pracownik
+                                        LEFT JOIN sprzet ON status.id_sprzet = sprzet.id 
+                                        UNION 
+                                        SELECT model AS 'MODEL', nr_seryjny AS 'NR_SERYJNY', rodzaj AS 'RODZAJ_SPRZĘTU',  nazwa_uzytkownika AS 'NAZWA_UZYTKOWNIKA', stanowisko AS 'STANOWISKO', status AS 'STATUS', sprzet.id AS 'id_sprzet' FROM pracownik
+                                        RIGHT JOIN status ON pracownik.id = status.id_pracownik
+                                        LEFT JOIN sprzet ON status.id_sprzet = sprzet.id 
+                                        UNION
+                                        SELECT model AS 'MODEL', nr_seryjny AS 'NR_SERYJNY', rodzaj AS 'RODZAJ_SPRZĘTU',  nazwa_uzytkownika AS 'NAZWA_UZYTKOWNIKA', stanowisko AS 'STANOWISKO', status AS 'STATUS', sprzet.id AS 'id_sprzet' FROM pracownik
+                                        RIGHT JOIN status ON pracownik.id = status.id_pracownik
+                                        RIGHT JOIN sprzet ON status.id_sprzet = sprzet.id
+                                        ORDER BY status DESC) t1
+                                        RIGHT JOIN dane_ksiegowe_sprzetu t2 ON t1.id_sprzet = t2.id_sprzet) t1
+                                        RIGHT JOIN dane_techniczne_sprzetu t2 ON t1.sprzet = t2.id_sprzet
+                                        WHERE STATUS ='$_GET[status]' and RODZAJ_SPRZĘTU ='$_GET[rodzaj]'
+                                        ORDER BY TERMIN ASC";
+                                    }
+                                    else{
+                                        $sql = "
+                                        SELECT MODEL, NR_SERYJNY, RODZAJ_SPRZĘTU, NAZWA_UZYTKOWNIKA, STANOWISKO, STATUS, TERMIN, sprzet AS id_sprzet, dodatkowy_opis FROM
+                                        (SELECT MODEL, NR_SERYJNY, RODZAJ_SPRZĘTU, NAZWA_UZYTKOWNIKA, STANOWISKO, STATUS, termin_wygasniecia AS 'TERMIN', t1.id_sprzet AS 'sprzet' FROM
+                                        (SELECT model AS 'MODEL', nr_seryjny AS 'NR_SERYJNY', rodzaj AS 'RODZAJ_SPRZĘTU', nazwa_uzytkownika AS 'NAZWA_UZYTKOWNIKA', stanowisko AS 'STANOWISKO', status AS 'STATUS', sprzet.id AS 'id_sprzet'FROM pracownik
+                                        RIGHT JOIN status ON pracownik.id = status.id_pracownik
+                                        LEFT JOIN sprzet ON status.id_sprzet = sprzet.id 
+                                        UNION 
+                                        SELECT model AS 'MODEL', nr_seryjny AS 'NR_SERYJNY', rodzaj AS 'RODZAJ_SPRZĘTU',  nazwa_uzytkownika AS 'NAZWA_UZYTKOWNIKA', stanowisko AS 'STANOWISKO', status AS 'STATUS', sprzet.id AS 'id_sprzet' FROM pracownik
+                                        RIGHT JOIN status ON pracownik.id = status.id_pracownik
+                                        LEFT JOIN sprzet ON status.id_sprzet = sprzet.id 
+                                        UNION
+                                        SELECT model AS 'MODEL', nr_seryjny AS 'NR_SERYJNY', rodzaj AS 'RODZAJ_SPRZĘTU',  nazwa_uzytkownika AS 'NAZWA_UZYTKOWNIKA', stanowisko AS 'STANOWISKO', status AS 'STATUS', sprzet.id AS 'id_sprzet' FROM pracownik
+                                        RIGHT JOIN status ON pracownik.id = status.id_pracownik
+                                        RIGHT JOIN sprzet ON status.id_sprzet = sprzet.id
+                                        ORDER BY status DESC) t1
+                                        RIGHT JOIN dane_ksiegowe_sprzetu t2 ON t1.id_sprzet = t2.id_sprzet) t1
+                                        RIGHT JOIN dane_techniczne_sprzetu t2 ON t1.sprzet = t2.id_sprzet
+                                        ORDER BY TERMIN ASC";
+                                    }
+                                    
 
                                     $wyniki = mysqli_query($link, $sql);
                                     echo "<form method='POST' action='lista.php' autocomplete='off'>";
@@ -223,16 +247,6 @@
                                     mysqli_close($link);
                                 ?>
                             </div>
-                        </div>
-                    </div>
-                    <div id="alert_success" data-delay="5000" class="toast">
-                        <div class="alert alert-success hide" role="alert" aria-live="assertive" aria-atomic="true">
-                            Pomyślnie dodano użytkownika!
-                        </div>
-                    </div>
-                    <div id="alert_error" data-delay="5000" class="toast">
-                        <div  class="alert alert-danger" role="alert" aria-live="assertive" aria-atomic="true">
-                            Error!
                         </div>
                     </div>
                 </div>
@@ -300,24 +314,27 @@
                     $("#statusy option:eq(4)").prop("disabled","disabled");
                   }
                   else{
+                    $("#statusy option:eq(1)").prop("disabled","disabled");
                     $("#statusy option:eq(2)").removeAttr("disabled");
                     $("#statusy option:eq(3)").removeAttr("disabled");
                     $("#statusy option:eq(4)").removeAttr("disabled");
                   }
                 }
   function zmiana_statusu(){
-                  if($("#statusy").val() != "NULL"  && $('#statusy').val() != 'W użyciu'){
+                  if($("#statusy").val() != "NULL" && $('#statusy').val() != 'W użyciu'){
                     for(var i = 1;i<$('#nazwy option').length;i++){
+                      console.log(i);
                       $("#nazwy option:eq("+i+")").prop("disabled","disabled");
                     }
                   }
                   else{
                     for(var i = 1;i<$('#nazwy option').length;i++){
+                      console.log(i);
                       $("#nazwy option:eq("+i+")").removeAttr("disabled");
                     }
                   }
                 }
-    var tablica_war = [];
+
 
   $(document).ready(function() {
     $(document).on('click', 'button[id^="cancel_button"]', function() {
@@ -325,9 +342,8 @@
       var tablica = $(this.closest('tr')).children();
       for(var i = 0;i<tablica.length; i++){
         $(tablica[i]).text(tablica.eq(i).find('input').val());
+        $(tablica[i]).text(tablica.eq(i).find('option')[0].text());
       }
-      $(tablica[5]).text(tablica_war[5]);
-      $(tablica[7]).text(tablica_war[7]);
       $(tablica).children("input").remove();
       $(tablica).children("select").remove();
       $('#accept_button').remove();
@@ -343,19 +359,16 @@
             $(id[0]).removeAttr('disabled');
 
             var tablica = $(this.closest('tr')).children();
-            
             for(var i = 0;i<tablica.length; i++){
               if($(tablica[i]).attr("onClick") != undefined){
                 var index=i;
                 $(tablica[i]).prop("onclick", null).off("click");
               }
               if(i == 5){
-                tablica_war[i] = $(tablica[i]).html();
                 $(tablica[i]).append('<select onchange="zmiana_nazwy()" id="nazwy" style="width:100%;overflow:hidden;" name="nazwa_uzytkownika">'+'<option value="NULL">---------</option>'+'<?php echo $options; ?>');
                 $(tablica[i]).append('</select>');
               }
               else if(i == 7){
-                tablica_war[i] = $(tablica[i]).html();
                 $(tablica[i]).append('<select onchange="zmiana_statusu()" id="statusy" style="width:100%;overflow:hidden;" name="statusy">'+'<option value="NULL">---------</option>'+'<option value="W użyciu">W użyciu</option>'+'<option value="W magazynie">W magazynie</option>'+'<option value="Uszkodzony">Uszkodzony</option>'+'<option value="Zamówiony">Zamówiony</option>');
                 $(tablica[i]).append('</select>');
               }
@@ -376,7 +389,7 @@
             $(tablica[7]).children('input').prop("name","status");
             $(tablica[8]).children('input').prop("disabled","disabled");;
             $('#dataTable tr').addClass('nohoverable');
-            $('#edit_button').after('<button class="btn btn-primary" type="button" id="cancel_button">Anuluj</button>');
+            $('#edit_button').after('<button class="btn btn-primary"id="cancel_button">Anuluj</button>');
             $('#edit_button').after('<input class="btn btn-primary" type="submit" id="accept_button" value="Dodaj"></input>');
             $('#edit_button').remove();
             });
@@ -458,19 +471,13 @@
     }
     $sql2 = "UPDATE `dane_techniczne_sprzetu` SET dodatkowy_opis = '$_POST[dodatkowy_opis]' WHERE id_sprzet='$_POST[id_sprzet]'";
 
-    if(mysqli_query($link, $sql2) && mysqli_query($link, $sql)){
-        echo "<meta http-equiv='refresh' content='0'>";
-        echo('<script type="text/javascript">
-                    $("#alert_success").toast("show");
-            </script>');
-    }
-    else{
-        echo "<meta http-equiv='refresh' content='0'>";
-        echo("<script type='text/javascript'>
-                $('#alert_error').toast('show');
-            </script>");
-    }
-   mysqli_close($link); 
+    mysqli_query($link, $sql);
+    mysqli_query($link, $sql2);
+    echo "<meta http-equiv='refresh' content='0'>";
+    echo("<script type='text/javascript'>
+        window.alert('Edytowano pomyślnie!')
+        </script>");
+    mysqli_close($link);
   }
 ?>
 

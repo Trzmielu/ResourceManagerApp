@@ -67,6 +67,9 @@
                         <a class="collapse-item" href="dodaj_sprzet.php">Dodaj sprzęt</a>
                         <a class="collapse-item" href="edytuj_sprzet.php">Edytuj sprzęt</a>
                         <a class="collapse-item" href="usun_sprzet.php">Usuń sprzęt</a>
+                        <h6 class="collapse-header">Rodzaj</h6>
+                        <a class="collapse-item" href="dodaj_rodzaj.php">Dodaj rodzaj</a>
+                        <a class="collapse-item" href="usun_rodzaj.php">Usuń rodzaj</a>
                     </div>
                 </div>
             </li>
@@ -128,11 +131,20 @@
             <!-- Divider -->
             <hr class="sidebar-divider">
 
+            <div class="sidebar-heading">
+                Listy
+            </div>
             <!-- Nav Item - Tables -->
             <li class="nav-item">
                 <a class="nav-link" href="lista.php">
                     <i class="fas fa-fw fa-table"></i>
                     <span>Lista sprzętów</span></a>
+            </li>
+            <hr class="sidebar-divider my-0">
+            <li class="nav-item">
+                <a class="nav-link" href="lista2.php">
+                    <i class="fas fa-fw fa-table"></i>
+                    <span>Lista licencji</span></a>
             </li>
 
             <!-- Divider -->
@@ -174,13 +186,13 @@
                                         if($link === false){
                                             die("ERROR: Could not connect. " . mysqli_connect_error());
                                         }
-                                    $sql = "SELECT id,nazwa,data_waznosci FROM licencja";
+                                    $sql = "SELECT id,nazwa,data_waznosci FROM (SELECT nazwa,MAX(id) id, data_waznosci FROM `licencja` WHERE sprzet_id IS NULL and data_waznosci > NOW() GROUP BY nazwa) A ORDER BY id";
                                     $result = mysqli_query($link, $sql);
 
                                     if (mysqli_num_rows($result) > 0) {
                                       // output data of each row
                                       while($row = mysqli_fetch_assoc($result)) {
-                                        echo "<option value='".$row["id"]."'>".$row["id"]." - ".$row["nazwa"]." - ".$row["data_waznosci"]."</option>";
+                                        echo "<option value='".$row["id"]."'>".$row["nazwa"]." - ".$row["data_waznosci"]."</option>";
                                       }
                                     } else {
                                       echo "0 results";
@@ -197,13 +209,13 @@
                                         if($link === false){
                                             die("ERROR: Could not connect. " . mysqli_connect_error());
                                         }
-                                    $sql = "SELECT id,nr_seryjny FROM sprzet";
+                                    $sql = "SELECT id,nr_seryjny FROM sprzet WHERE rodzaj = 'laptop'";
                                     $result = mysqli_query($link, $sql);
 
                                     if (mysqli_num_rows($result) > 0) {
                                       // output data of each row
                                       while($row = mysqli_fetch_assoc($result)) {
-                                        echo "<option value='".$row["id"]."'>".$row["id"]." - ".$row["nr_seryjny"]."</option>";
+                                        echo "<option value='".$row["id"]."'>".$row["nr_seryjny"]."</option>";
                                       }
                                     } else {
                                       echo "0 results";

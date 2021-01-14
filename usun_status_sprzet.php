@@ -67,6 +67,9 @@
                         <a class="collapse-item" href="dodaj_sprzet.php">Dodaj sprzęt</a>
                         <a class="collapse-item" href="edytuj_sprzet.php">Edytuj sprzęt</a>
                         <a class="collapse-item" href="usun_sprzet.php">Usuń sprzęt</a>
+                        <h6 class="collapse-header">Rodzaj</h6>
+                        <a class="collapse-item" href="dodaj_rodzaj.php">Dodaj rodzaj</a>
+                        <a class="collapse-item" href="usun_rodzaj.php">Usuń rodzaj</a>
                     </div>
                 </div>
             </li>
@@ -128,11 +131,20 @@
             <!-- Divider -->
             <hr class="sidebar-divider">
 
+            <div class="sidebar-heading">
+                Listy
+            </div>
             <!-- Nav Item - Tables -->
             <li class="nav-item">
                 <a class="nav-link" href="lista.php">
                     <i class="fas fa-fw fa-table"></i>
                     <span>Lista sprzętów</span></a>
+            </li>
+            <hr class="sidebar-divider my-0">
+            <li class="nav-item">
+                <a class="nav-link" href="lista2.php">
+                    <i class="fas fa-fw fa-table"></i>
+                    <span>Lista licencji</span></a>
             </li>
 
             <!-- Divider -->

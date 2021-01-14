@@ -67,6 +67,9 @@
                         <a class="collapse-item" href="dodaj_sprzet.php">Dodaj sprzęt</a>
                         <a class="collapse-item" href="edytuj_sprzet.php">Edytuj sprzęt</a>
                         <a class="collapse-item" href="usun_sprzet.php">Usuń sprzęt</a>
+                        <h6 class="collapse-header">Rodzaj</h6>
+                        <a class="collapse-item" href="dodaj_rodzaj.php">Dodaj rodzaj</a>
+                        <a class="collapse-item" href="usun_rodzaj.php">Usuń rodzaj</a>
                     </div>
                 </div>
             </li>
@@ -127,12 +130,20 @@
 
             <!-- Divider -->
             <hr class="sidebar-divider">
-
+            <div class="sidebar-heading">
+                Listy
+            </div>
             <!-- Nav Item - Tables -->
             <li class="nav-item">
                 <a class="nav-link" href="lista.php">
                     <i class="fas fa-fw fa-table"></i>
                     <span>Lista sprzętów</span></a>
+            </li>
+            <hr class="sidebar-divider my-0">
+            <li class="nav-item">
+                <a class="nav-link" href="lista2.php">
+                    <i class="fas fa-fw fa-table"></i>
+                    <span>Lista licencji</span></a>
             </li>
 
             <!-- Divider -->
@@ -162,12 +173,12 @@
                 <div class="container-fluid">
 
                     <!-- Page Heading -->
-                    <h1 class="h3 mb-4 text-gray-800">Lista sprzętów</h1>
+                    <h1 class="h3 mb-4 text-gray-800">Informacje szczegółowe</h1>
                     <div class="card shadow mb-4">
                         <div class="card-header py-3">
                             <h6 class="m-0 font-weight-bold text-primary">
                                 <?php
-                                    echo $_GET['nr'];
+                                    echo mb_strtoupper($_GET['nr']);
                                 ?>
                             </h6>
                         </div>
@@ -176,28 +187,46 @@
                                     $link = mysqli_connect("localhost", "root", "", "baza_aplikacja");
                                     $sql = "SELECT model, nr_seryjny, rodzaj, dodatkowy_opis
                                     FROM dane_techniczne_sprzetu
-                                    LEFT JOIN sprzet ON dane_techniczne_sprzetu.id_sprzet = sprzet.id
-                                    WHERE sprzet.nr_seryjny = '$_GET[nr]'
-                                    UNION
-                                    SELECT model, nr_seryjny, rodzaj, dodatkowy_opis
-                                    FROM dane_techniczne_sprzetu
-                                    RIGHT JOIN sprzet ON dane_techniczne_sprzetu.id_sprzet = sprzet.id
+                                    JOIN sprzet ON dane_techniczne_sprzetu.id_sprzet = sprzet.id
                                     WHERE sprzet.nr_seryjny = '$_GET[nr]'";
                                     $sql2 = "SELECT termin_wygasniecia
                                     FROM dane_ksiegowe_sprzetu
-                                    LEFT JOIN sprzet ON dane_ksiegowe_sprzetu.id_sprzet = sprzet.id
-                                    WHERE sprzet.nr_seryjny = '$_GET[nr]'
-                                    UNION
-                                    SELECT termin_wygasniecia
-                                    FROM dane_ksiegowe_sprzetu
-                                    RIGHT JOIN sprzet ON dane_ksiegowe_sprzetu.id_sprzet = sprzet.id
+                                    JOIN sprzet ON dane_ksiegowe_sprzetu.id_sprzet = sprzet.id
+                                    WHERE sprzet.nr_seryjny = '$_GET[nr]'";
+                                    $sql3 = "SELECT nazwa
+                                    FROM licencja
+                                    JOIN sprzet ON licencja.sprzet_id = sprzet.id
                                     WHERE sprzet.nr_seryjny = '$_GET[nr]'";
 
                                     $wyniki = mysqli_query($link, $sql);
                                     $wyniki2 = mysqli_query($link, $sql2);
+                                    $wyniki3 = mysqli_query($link, $sql3);
+                                    $wyniki3 = mysqli_query($link, $sql3);
                                     $row2 = mysqli_fetch_array($wyniki2);
+                                    $licencje = '';
+                                    while($row3 = mysqli_fetch_array($wyniki3)){
+                                            $licencje .= $row3['nazwa']."</br>";
+                                    }
                                     while($row = mysqli_fetch_array($wyniki)){
                                         echo '<div class="row">
+                                                <div class="col-xl-3 col-md-6 mb-4">
+                                                    <div class="card border-left-primary shadow h-100 py-2">
+                                                        <div class="card-body">
+                                                            <div class="row no-gutters align-items-center">
+                                                                <div class="col mr-2">
+                                                                    <div class="text-s font-weight-bold text-primary text-uppercase mb-1">
+                                                                        Numer Seryjny</div>
+                                                                    <div class="h1 mb-0 font-weight-bold text-gray-800">
+                                                                        '.mb_strtoupper($row['nr_seryjny']).'
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-auto">
+                                                                    <i class="fas fa-laptop fa-2x text-gray-300"></i>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
                                                 <div class="col-xl-3 col-md-6 mb-4">
                                                     <div class="card border-left-primary shadow h-100 py-2">
                                                         <div class="card-body">
@@ -261,12 +290,34 @@
                                                                 <div class="col mr-2">
                                                                     <div class="text-s font-weight-bold text-primary text-uppercase mb-1">
                                                                         Opis</div>
-                                                                    <div class="h1 mb-0 font-weight-bold text-gray-800">
+                                                                    <div class="h3 mb-0 font-weight text-gray-800">
                                                                         '.mb_strtoupper($row['dodatkowy_opis']).'
                                                                     </div>
                                                                 </div>
                                                                 <div class="col-auto">
                                                                     <i class="fas fa-sticky-note fa-2x text-gray-300"></i>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div style="max-width: 100% !important; flex:none;" class="col-xl-3 col-md-6 mb-4">
+                                                    <div class="card border-left-primary shadow h-100 py-2">
+                                                        <div class="card-body">
+                                                            <div class="row no-gutters align-items-center">
+                                                                <div class="col mr-2">
+                                                                    <div class="text-s font-weight-bold text-primary text-uppercase mb-1">
+                                                                        Licencje</div>
+                                                                    <div class="h3 mb-0 font-weight text-gray-800">
+                                                                        '.
+                                                                        $licencje
+                                                                        .'
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-auto">
+                                                                    <i class="fas fa-certificate fa-2x text-gray-300"></i>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -330,11 +381,14 @@
     if(x <= Date.now()){
         console.log('es');
         $('#data').addClass('border-left-danger');
+        $('#data .card-body .col div').addClass('text-danger');
     }
     else if(x > Date.now() && x <= Date.parse(date)){
-        $('#data').addClass('border-left-warning');;
+        $('#data').addClass('border-left-warning');
+        $('#data .card-body .col div').addClass('text-warning');
     }
     else {
-        $('#data').addClass('border-left-success');;
+        $('#data').addClass('border-left-success');
+        $('#data .card-body .col div').addClass('text-success');
     }
 </script>

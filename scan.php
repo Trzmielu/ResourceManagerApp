@@ -131,20 +131,11 @@
             <!-- Divider -->
             <hr class="sidebar-divider">
 
-            <div class="sidebar-heading">
-                Listy
-            </div>
             <!-- Nav Item - Tables -->
             <li class="nav-item">
                 <a class="nav-link" href="lista.php">
                     <i class="fas fa-fw fa-table"></i>
                     <span>Lista sprzętów</span></a>
-            </li>
-            <hr class="sidebar-divider my-0">
-            <li class="nav-item">
-                <a class="nav-link" href="lista2.php">
-                    <i class="fas fa-fw fa-table"></i>
-                    <span>Lista licencji</span></a>
             </li>
 
             <!-- Divider -->
@@ -174,49 +165,8 @@
                 <div class="container-fluid">
 
                     <!-- Page Heading -->
-                    <h1 class="h3 mb-4 text-gray-800">Edytuj użytkownika</h1>
-
-                    <form action="./edytuj_uzytkownika.php" method="POST" autocomplete="off">
-                        <select class="form-control" name='id'>
-                            <option value="" disabled selected>WYBIERZ UŻYTKOWNIKA</option>
-                            <?php
-                                $link = mysqli_connect("localhost", "root", "", "baza_aplikacja");
-                                    if($link === false){
-                                        die("ERROR: Could not connect. " . mysqli_connect_error());
-                                    }
-                                $sql = "SELECT id, nazwa_uzytkownika,stanowisko FROM pracownik";
-                                $result = mysqli_query($link, $sql);
-
-                                if (mysqli_num_rows($result) > 0) {
-                                  // output data of each row
-                                  while($row = mysqli_fetch_assoc($result)) {
-                                    echo "<option value='".$row["id"]."'>".$row["nazwa_uzytkownika"]." ".$row["stanowisko"]."</option>";
-                                  }
-                                } else {
-                                  echo "0 results";
-                                }
-
-                                mysqli_close($link);
-                            ?>
-                        </select>
-                        </br>
-                        <input class="form-control" type="text" id="nazwa_uzytkownika" name="nazwa_uzytkownika" placeholder="NAZWA UŻYTKOWNIKA">
-                        </br>
-                        <input class="form-control" type="text" id="stanowisko" name="stanowisko" placeholder="STANOWISKO">
-                        </br>
-                        <input class="form-control" type="submit" value="ZAAKTUALIZUJ">
-                    </form>
-                    <div id="alert_success" data-delay="3000" class="toast">
-                        <div class="alert alert-success hide" role="alert" aria-live="assertive" aria-atomic="true">
-                            Pomyślnie zaaktualizowano uzytkownika!
-                        </div>
-                    </div>
-                    <div id="alert_error" data-delay="3000" class="toast">
-                        <div  class="alert alert-danger" role="alert" aria-live="assertive" aria-atomic="true">
-                            Error!
-                        </div>
-                    </div>
-
+                    <h1 class="h3 mb-4 text-gray-800">Skanowanie</h1>
+                        
                 </div>
                 <!-- /.container-fluid -->
 
@@ -258,22 +208,23 @@
 
 </html>
 
-<?php
-    if(isset($_POST['id']) && isset($_POST['nazwa_uzytkownika']) && isset($_POST['stanowisko'])){
-        $link = mysqli_connect("localhost", "root", "", "baza_aplikacja");
-        if($link === false){
-            die("ERROR: Could not connect. " . mysqli_connect_error());
-        }
-        $sql = "UPDATE `pracownik` SET nazwa_uzytkownika = '$_POST[nazwa_uzytkownika]', stanowisko = '$_POST[stanowisko]' WHERE id='$_POST[id]'";
-        if(mysqli_query($link, $sql)){
-            echo("<script type='text/javascript'>
-                $('#alert_success').toast('show');
-            </script>");
-        } else{
-            echo("<script type='text/javascript'>
-                $('#alert_error').toast('show');
-            </script>");
-        }
-        mysqli_close($link);
+<script type="text/javascript">
+    var x = $('#data').text();
+    x = Date.parse(x.trim().substring(160,170));
+    
+    var date = new Date()
+    date.setDate(date.getDate() + 365);
+    if(x <= Date.now()){
+        console.log('es');
+        $('#data').addClass('border-left-danger');
+        $('#data .card-body .col div').addClass('text-danger');
     }
-?>
+    else if(x > Date.now() && x <= Date.parse(date)){
+        $('#data').addClass('border-left-warning');
+        $('#data .card-body .col div').addClass('text-warning');
+    }
+    else {
+        $('#data').addClass('border-left-success');
+        $('#data .card-body .col div').addClass('text-success');
+    }
+</script>

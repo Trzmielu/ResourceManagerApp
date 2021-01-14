@@ -174,49 +174,36 @@
                 <div class="container-fluid">
 
                     <!-- Page Heading -->
-                    <h1 class="h3 mb-4 text-gray-800">Edytuj użytkownika</h1>
+                    <h1 class="h3 mb-4 text-gray-800">Lista licencji</h1>
+                    <div class="card shadow mb-4">
+                        <div class="card-header py-3">
+                            <h6 class="m-0 font-weight-bold text-primary">Tabela</h6>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <?php
+                                    $link = mysqli_connect("localhost", "root", "", "baza_aplikacja");
+                                    $sql = "
+                                    SELECT licencja.id, nazwa, data_waznosci, sprzet_id, nr_seryjny
+                                    FROM licencja
+                                    LEFT JOIN sprzet ON sprzet.id = licencja.sprzet_id 
+                                    ORDER BY data_waznosci";
 
-                    <form action="./edytuj_uzytkownika.php" method="POST" autocomplete="off">
-                        <select class="form-control" name='id'>
-                            <option value="" disabled selected>WYBIERZ UŻYTKOWNIKA</option>
-                            <?php
-                                $link = mysqli_connect("localhost", "root", "", "baza_aplikacja");
-                                    if($link === false){
-                                        die("ERROR: Could not connect. " . mysqli_connect_error());
+                                    $wyniki = mysqli_query($link, $sql);
+                                    echo "<form method='POST' action='lista.php' autocomplete='off'>";
+                                    echo "<table class='table table-bordered' id='dataTable'width='100%' cellspacing='0'>";
+                                    echo "<thead><tr><th onclick='sortTable(0)'>" . 'ID' . "</th><th onclick='sortTable(1)'>" . 'NAZWA' . "</th><th onclick='sortTable(2)'>" . 'DATA WAŻNOŚCI' . "</th><th onclick='sortTable(3)'>" . 'NR SERYJNY SPRZĘTU' . "</th><th onclick='sortTable(3)'>" . 'STATUS' . "</th></tr></thead><tbody>";
+                                    while($row = mysqli_fetch_array($wyniki)){
+                                        echo "<tr><td>" . $row['id'] . "</td><td>" . $row['nazwa'] . "</td><td class='data'>" . $row['data_waznosci'] . "</td><td>" . $row['nr_seryjny'] . "</td><td class='status'>" . $row['sprzet_id'] . "</td></tr>"; 
                                     }
-                                $sql = "SELECT id, nazwa_uzytkownika,stanowisko FROM pracownik";
-                                $result = mysqli_query($link, $sql);
+                                      
+                                    echo "</tbody></table></form>";
 
-                                if (mysqli_num_rows($result) > 0) {
-                                  // output data of each row
-                                  while($row = mysqli_fetch_assoc($result)) {
-                                    echo "<option value='".$row["id"]."'>".$row["nazwa_uzytkownika"]." ".$row["stanowisko"]."</option>";
-                                  }
-                                } else {
-                                  echo "0 results";
-                                }
-
-                                mysqli_close($link);
-                            ?>
-                        </select>
-                        </br>
-                        <input class="form-control" type="text" id="nazwa_uzytkownika" name="nazwa_uzytkownika" placeholder="NAZWA UŻYTKOWNIKA">
-                        </br>
-                        <input class="form-control" type="text" id="stanowisko" name="stanowisko" placeholder="STANOWISKO">
-                        </br>
-                        <input class="form-control" type="submit" value="ZAAKTUALIZUJ">
-                    </form>
-                    <div id="alert_success" data-delay="3000" class="toast">
-                        <div class="alert alert-success hide" role="alert" aria-live="assertive" aria-atomic="true">
-                            Pomyślnie zaaktualizowano uzytkownika!
+                                    mysqli_close($link);
+                                ?>
+                            </div>
                         </div>
                     </div>
-                    <div id="alert_error" data-delay="3000" class="toast">
-                        <div  class="alert alert-danger" role="alert" aria-live="assertive" aria-atomic="true">
-                            Error!
-                        </div>
-                    </div>
-
                 </div>
                 <!-- /.container-fluid -->
 
@@ -258,22 +245,54 @@
 
 </html>
 
-<?php
-    if(isset($_POST['id']) && isset($_POST['nazwa_uzytkownika']) && isset($_POST['stanowisko'])){
-        $link = mysqli_connect("localhost", "root", "", "baza_aplikacja");
-        if($link === false){
-            die("ERROR: Could not connect. " . mysqli_connect_error());
+<script type="text/javascript">
+  function sortTable(n) {
+    var table, rows, switching, i, x, y, shouldSwitch, dir, switchcount = 0;
+    table = document.getElementById("dataTable");
+    switching = true;
+    dir = "asc";
+    while (switching) {
+      switching = false;
+      rows = table.rows;
+      for (i = 1; i < (rows.length - 1); i++) {
+        shouldSwitch = false;
+        x = rows[i].getElementsByTagName("TD")[n];
+        y = rows[i + 1].getElementsByTagName("TD")[n];
+        if (dir == "asc") {
+          if (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()) {
+            shouldSwitch = true;
+            break;
+          }
+        } else if (dir == "desc") {
+          if (x.innerHTML.toLowerCase() < y.innerHTML.toLowerCase()) {
+            shouldSwitch = true;
+            break;
+          }
         }
-        $sql = "UPDATE `pracownik` SET nazwa_uzytkownika = '$_POST[nazwa_uzytkownika]', stanowisko = '$_POST[stanowisko]' WHERE id='$_POST[id]'";
-        if(mysqli_query($link, $sql)){
-            echo("<script type='text/javascript'>
-                $('#alert_success').toast('show');
-            </script>");
-        } else{
-            echo("<script type='text/javascript'>
-                $('#alert_error').toast('show');
-            </script>");
+      }
+      if (shouldSwitch) {
+        rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
+        switching = true;
+        switchcount ++;
+      } else {
+        if (switchcount == 0 && dir == "asc") {
+          dir = "desc";
+          switching = true;
         }
-        mysqli_close($link);
+      }
     }
-?>
+  }
+  for(var i = 0; i<$('.data').length;i++){
+    if(Date.parse($('.data').eq(i).html()) < Date.now()){
+        $('.status').eq(i).html("Wygasła");
+        $('.status').eq(i).css({color: '#fa5448'});
+    }
+    else if(Date.parse($('.data').eq(i).html()) >= Date.now() && $('.status').eq(i).html() != ""){
+        $('.status').eq(i).html("W użyciu");
+        $('.status').eq(i).css({color: '#00FF04'});
+    }
+    else {
+        $('.status').eq(i).html("Nieprzypisane");
+    }
+  }
+</script>

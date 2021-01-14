@@ -63,7 +63,7 @@
                 </a>
                 <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
-                        <h6 class="collapse-header">Wybierz</h6>
+                        <h6 class="collapse-header">Sprzęt</h6>
                         <a class="collapse-item" href="dodaj_sprzet.php">Dodaj sprzęt</a>
                         <a class="collapse-item" href="edytuj_sprzet.php">Edytuj sprzęt</a>
                         <a class="collapse-item" href="usun_sprzet.php">Usuń sprzęt</a>
@@ -174,41 +174,19 @@
                 <div class="container-fluid">
 
                     <!-- Page Heading -->
-                    <h1 class="h3 mb-4 text-gray-800">Edytuj użytkownika</h1>
+                    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+                        <h1 class="h3 mb-0 text-gray-800">Dodaj rodzaj</h1>
+                    </div>
 
-                    <form action="./edytuj_uzytkownika.php" method="POST" autocomplete="off">
-                        <select class="form-control" name='id'>
-                            <option value="" disabled selected>WYBIERZ UŻYTKOWNIKA</option>
-                            <?php
-                                $link = mysqli_connect("localhost", "root", "", "baza_aplikacja");
-                                    if($link === false){
-                                        die("ERROR: Could not connect. " . mysqli_connect_error());
-                                    }
-                                $sql = "SELECT id, nazwa_uzytkownika,stanowisko FROM pracownik";
-                                $result = mysqli_query($link, $sql);
-
-                                if (mysqli_num_rows($result) > 0) {
-                                  // output data of each row
-                                  while($row = mysqli_fetch_assoc($result)) {
-                                    echo "<option value='".$row["id"]."'>".$row["nazwa_uzytkownika"]." ".$row["stanowisko"]."</option>";
-                                  }
-                                } else {
-                                  echo "0 results";
-                                }
-
-                                mysqli_close($link);
-                            ?>
-                        </select>
+                    <form action="./dodaj_rodzaj.php" method="POST" autocomplete="off">
+                        <input  class="form-control" type="text" id="nazwa_rodzaju" name="nazwa_rodzaju"
+                        placeholder="Nazwa">
                         </br>
-                        <input class="form-control" type="text" id="nazwa_uzytkownika" name="nazwa_uzytkownika" placeholder="NAZWA UŻYTKOWNIKA">
-                        </br>
-                        <input class="form-control" type="text" id="stanowisko" name="stanowisko" placeholder="STANOWISKO">
-                        </br>
-                        <input class="form-control" type="submit" value="ZAAKTUALIZUJ">
+                        <input class="form-control" type="submit" value="DODAJ">
                     </form>
                     <div id="alert_success" data-delay="3000" class="toast">
                         <div class="alert alert-success hide" role="alert" aria-live="assertive" aria-atomic="true">
-                            Pomyślnie zaaktualizowano uzytkownika!
+                            Pomyślnie dodano rodzaj!
                         </div>
                     </div>
                     <div id="alert_error" data-delay="3000" class="toast">
@@ -257,23 +235,24 @@
 </body>
 
 </html>
-
 <?php
-    if(isset($_POST['id']) && isset($_POST['nazwa_uzytkownika']) && isset($_POST['stanowisko'])){
+    if(isset($_POST['nazwa_rodzaju'])){
         $link = mysqli_connect("localhost", "root", "", "baza_aplikacja");
         if($link === false){
             die("ERROR: Could not connect. " . mysqli_connect_error());
         }
-        $sql = "UPDATE `pracownik` SET nazwa_uzytkownika = '$_POST[nazwa_uzytkownika]', stanowisko = '$_POST[stanowisko]' WHERE id='$_POST[id]'";
+        $sql = "INSERT INTO `rodzaj` (`nazwa`) VALUES ('$_POST[nazwa_rodzaju]')";
+
         if(mysqli_query($link, $sql)){
             echo("<script type='text/javascript'>
-                $('#alert_success').toast('show');
-            </script>");
-        } else{
-            echo("<script type='text/javascript'>
-                $('#alert_error').toast('show');
+            $('#alert_success').toast('show')
             </script>");
         }
+        else{
+            echo("<script type='text/javascript'>
+            $('#alert_error').toast('show')
+            </script>");
+        };
         mysqli_close($link);
     }
 ?>
