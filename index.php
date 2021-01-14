@@ -213,28 +213,22 @@
                                     $host = "resourcemanagerdb.postgres.database.azure.com";
                                     $database = "baza_aplikacja";
                                     $user = "resourcemanager@resourcemanagerdb";
-                                    $password = "Trzmielu123";
-
+                                    $password = "Trzmielu123";                                    
                                     // Initialize connection object.
-                                    $connection = pg_connect("host=$host dbname=$database user=$user password=$password") 
-                                        or die("Failed to create connection to database: ". pg_last_error(). "<br/>");
-                                    // $link = mysqli_connect("localhost", "root", "", "baza_aplikacja");
-                                    //     if($link === false){
-                                    //         die("ERROR: Could not connect. " . mysqli_connect_error());
-                                    //     }
-                                    $sql = "SELECT COUNT(*) FROM sprzet";
-                                    pg_query($link, $sql);
+                                    $connection = pg_connect("host=$host dbname=$database user=$user password=$password")
+                                                or die("Failed to create connection to database: ". pg_last_error(). "<br/>");
 
-                                    // if (mysqli_num_rows($result) > 0) {
-                                    //   // output data of each row
-                                    //   while($row = mysqli_fetch_assoc($result)) {
-                                    //     echo "<option value='".$row["nazwa"]."'>".$row["nazwa"]."</option>";
-                                    //   }
-                                    // } else {
-                                    //   echo "0 results";
-                                    // }
+                                    print "Successfully created connection to database. <br/>";
+
+                                    // Perform some SQL queries over the connection.
+                                    $query = "SELECT * from sprzet";
+                                    pg_query($connection, $query) 
+
+                                    // Free result_set
+                                    pg_free_result($result_set);
+
+                                    // Closing connection
                                     pg_close($connection);
-                                    // mysqli_close($link);
                                 ?>
                     <!-- Content Row -->
                     <div id="row1" class="row">
