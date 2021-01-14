@@ -179,16 +179,7 @@
                             <select id='jaki_sprzet' onchange="this.form.submit()" class="form-control jaki" name="jaki_sprzet">
                                 <option value="Wszystkie">WSZYSTKIE</option>
                                 <?php
-                                    // Initialize connection variables.
-                                    $host = "resourcemanagerdb.postgres.database.azure.com";
-                                    $database = "baza_aplikacja";
-                                    $user = "resourcemanager@resourcemanagerdb
-";
-                                    $password = "Trzmielu123";
-
-                                    // Initialize connection object.
-                                    $connection = pg_connect("host=$host dbname=$database user=$user password=$password") 
-                                        or die("Failed to create connection to database: ". pg_last_error(). "<br/>");
+                                    $connection = pg_connect("host=resourcemanagerdb.postgres.database.azure.com dbname=baza_aplikacja user=resourcemanager@resourcemanagerdb password=Trzmielu123") 
                                     // $link = mysqli_connect("localhost", "root", "", "baza_aplikacja");
                                     //     if($link === false){
                                     //         die("ERROR: Could not connect. " . mysqli_connect_error());
@@ -533,26 +524,44 @@
 
 
 <?php
-
 function wyswietl($sql)
 {
-    $link = mysqli_connect("localhost", "root", "", "baza_aplikacja");
-    if($link === false){
-        die("ERROR: Could not connect. " . mysqli_connect_error());
+    $connection = pg_connect("host=resourcemanagerdb.postgres.database.azure.com dbname=baza_aplikacja user=resourcemanager@resourcemanagerdb password=Trzmielu123") 
+    if($connection === false){
+        die("ERROR: Could not connect. " . pg_last_error());
     }
-    $result = mysqli_query($link, $sql);
+    $result = pg_query($link, $sql);
 
-    if (mysqli_num_rows($result) > 0) {
+    if (pg_num_rows($result) > 0) {
     // output data of each row
-    while($row = mysqli_fetch_assoc($result)) {
+    while($row = pg_fetch_assoc($result)) {
     echo $row['wynik'];
     }
     } else {
     echo "0";
     }
 
-    mysqli_close($link);
+    pg_close($link);
 }
+// function wyswietl($sql)
+// {
+//     $link = mysqli_connect("localhost", "root", "", "baza_aplikacja");
+//     if($link === false){
+//         die("ERROR: Could not connect. " . mysqli_connect_error());
+//     }
+//     $result = mysqli_query($link, $sql);
+
+//     if (mysqli_num_rows($result) > 0) {
+//     // output data of each row
+//     while($row = mysqli_fetch_assoc($result)) {
+//     echo $row['wynik'];
+//     }
+//     } else {
+//     echo "0";
+//     }
+
+//     mysqli_close($link);
+// }
 
 ?>
 
