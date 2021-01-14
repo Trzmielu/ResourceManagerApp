@@ -545,9 +545,7 @@ function wyswietl($sql)
     if($connection === false){
         die("ERROR: Could not connect. " . pg_last_error());
     }
-    $result = pg_query($link, $sql);
-    echo $result;
-    echo pg_num_rows($result);
+    $result = pg_query($connection, $sql);
     if (pg_num_rows($result) > 0) {
     // output data of each row
         while($row = pg_fetch_assoc($result)) {
