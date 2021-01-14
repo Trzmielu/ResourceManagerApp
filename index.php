@@ -553,7 +553,7 @@ function wyswietl($sql)
     echo $row['wynik'];
     }
     } else {
-    echo "0";
+    echo "xD";
     }
 
     pg_close($link);
