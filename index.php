@@ -534,8 +534,13 @@
 <?php
 function wyswietl($sql)
 {
+    $host = "resourcemanagerdb.postgres.database.azure.com";
+    $database = "baza_aplikacja";
+    $user = "resourcemanager@resourcemanagerdb";
+    $password = "Trzmielu123";
+
     // Initialize connection object.
-    $connection = pg_connect("host=resourcemanagerdb.postgres.database.azure.com port=5432 dbname=baza_aplikacja user=resourcemanager@resourcemanagerdb password=Trzmielu123 sslmode=require") 
+    $connection = pg_connect("host=$host dbname=$database user=$user password=$password") 
         or die("Failed to create connection to database: ". pg_last_error(). "<br/>");
     if($connection === false){
         die("ERROR: Could not connect. " . pg_last_error());
@@ -550,7 +555,7 @@ function wyswietl($sql)
     } else {
     echo "0";
     }
-    echo 'XD'
+
     pg_close($link);
 }
 // function wyswietl($sql)
