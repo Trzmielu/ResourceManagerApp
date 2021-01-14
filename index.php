@@ -179,23 +179,33 @@
                             <select id='jaki_sprzet' onchange="this.form.submit()" class="form-control jaki" name="jaki_sprzet">
                                 <option value="Wszystkie">WSZYSTKIE</option>
                                 <?php
-                                    $link = mysqli_connect("localhost", "root", "", "baza_aplikacja");
-                                        if($link === false){
-                                            die("ERROR: Could not connect. " . mysqli_connect_error());
-                                        }
+                                    // Initialize connection variables.
+                                    $host = "resourcemanagerdb.postgres.database.azure.com";
+                                    $database = "baza_aplikacja";
+                                    $user = "resourcemanager@resourcemanagerdb
+";
+                                    $password = "Trzmielu123";
+
+                                    // Initialize connection object.
+                                    $connection = pg_connect("host=$host dbname=$database user=$user password=$password") 
+                                        or die("Failed to create connection to database: ". pg_last_error(). "<br/>");
+                                    // $link = mysqli_connect("localhost", "root", "", "baza_aplikacja");
+                                    //     if($link === false){
+                                    //         die("ERROR: Could not connect. " . mysqli_connect_error());
+                                    //     }
                                     $sql = "SELECT id, nazwa FROM rodzaj";
-                                    $result = mysqli_query($link, $sql);
+                                    pg_query($link, $sql);
 
-                                    if (mysqli_num_rows($result) > 0) {
-                                      // output data of each row
-                                      while($row = mysqli_fetch_assoc($result)) {
-                                        echo "<option value='".$row["nazwa"]."'>".$row["nazwa"]."</option>";
-                                      }
-                                    } else {
-                                      echo "0 results";
-                                    }
-
-                                    mysqli_close($link);
+                                    // if (mysqli_num_rows($result) > 0) {
+                                    //   // output data of each row
+                                    //   while($row = mysqli_fetch_assoc($result)) {
+                                    //     echo "<option value='".$row["nazwa"]."'>".$row["nazwa"]."</option>";
+                                    //   }
+                                    // } else {
+                                    //   echo "0 results";
+                                    // }
+                                    pg_close($connection);
+                                    // mysqli_close($link);
                                 ?>
                             </select>
                     </div>
