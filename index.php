@@ -179,7 +179,15 @@
                             <select id='jaki_sprzet' onchange="this.form.submit()" class="form-control jaki" name="jaki_sprzet">
                                 <option value="Wszystkie">WSZYSTKIE</option>
                                 <?php
-                                    $connection = pg_connect("host=resourcemanagerdb.postgres.database.azure.com dbname=baza_aplikacja user=resourcemanager@resourcemanagerdb password=Trzmielu123") 
+                                    // Initialize connection variables.
+                                    $host = "resourcemanagerdb.postgres.database.azure.com";
+                                    $database = "baza_aplikacja";
+                                    $user = "resourcemanager@resourcemanagerdb";
+                                    $password = "Trzmielu123";
+
+                                    // Initialize connection object.
+                                    $connection = pg_connect("host=$host dbname=$database user=$user password=$password") 
+                                        or die("Failed to create connection to database: ". pg_last_error(). "<br/>");
                                     // $link = mysqli_connect("localhost", "root", "", "baza_aplikacja");
                                     //     if($link === false){
                                     //         die("ERROR: Could not connect. " . mysqli_connect_error());
@@ -526,7 +534,14 @@
 <?php
 function wyswietl($sql)
 {
-    $connection = pg_connect("host=resourcemanagerdb.postgres.database.azure.com dbname=baza_aplikacja user=resourcemanager@resourcemanagerdb password=Trzmielu123") 
+    $host = "resourcemanagerdb.postgres.database.azure.com";
+    $database = "baza_aplikacja";
+    $user = "resourcemanager@resourcemanagerdb";
+    $password = "Trzmielu123";
+
+    // Initialize connection object.
+    $connection = pg_connect("host=$host dbname=$database user=$user password=$password") 
+        or die("Failed to create connection to database: ". pg_last_error(). "<br/>");
     if($connection === false){
         die("ERROR: Could not connect. " . pg_last_error());
     }
