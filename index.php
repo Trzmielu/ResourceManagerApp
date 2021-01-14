@@ -193,16 +193,16 @@
                                     //         die("ERROR: Could not connect. " . mysqli_connect_error());
                                     //     }
                                     $sql = "SELECT id, nazwa FROM rodzaj";
-                                    pg_query($link, $sql);
+                                    $result = pg_query($connection, $sql);
 
-                                    // if (mysqli_num_rows($result) > 0) {
-                                    //   // output data of each row
-                                    //   while($row = mysqli_fetch_assoc($result)) {
-                                    //     echo "<option value='".$row["nazwa"]."'>".$row["nazwa"]."</option>";
-                                    //   }
-                                    // } else {
-                                    //   echo "0 results";
-                                    // }
+                                    if (pg_num_rows($result) > 0) {
+                                      // output data of each row
+                                      while($row = pg_fetch_assoc($result)) {
+                                        echo "<option value='".$row["nazwa"]."'>".$row["nazwa"]."</option>";
+                                      }
+                                    } else {
+                                      echo "0 results";
+                                    }
                                     pg_close($connection);
                                     // mysqli_close($link);
                                 ?>
@@ -375,23 +375,24 @@
                             <select onchange="this.form.submit()" id='jaka_licencja' class="form-control jaki" name="jaka_licencja">
                                 <option value="Wszystkie">WSZYSTKIE</option>
                                 <?php
-                                    $link = mysqli_connect("localhost", "root", "", "baza_aplikacja");
-                                    if($link === false){
-                                        die("ERROR: Could not connect. " . mysqli_connect_error());
+                                    $connection = pg_connect("host=resourcemanagerdb.postgres.database.azure.com dbname=baza_aplikacja user=resourcemanager@resourcemanagerdb password=Trzmielu123") 
+                                        or die("Failed to create connection to database: ". pg_last_error(). "<br/>");
+                                    if($connection === false){
+                                        die("ERROR: Could not connect. " . pg_last_error());
                                     }
                                     $sql = "SELECT DISTINCT nazwa FROM licencja";
-                                    $result = mysqli_query($link, $sql);
+                                    $result = pg_query($connection, $sql);
 
-                                    if (mysqli_num_rows($result) > 0) {
+                                    if (pg_num_rows($result) > 0) {
                                       // output data of each row
-                                      while($row = mysqli_fetch_assoc($result)) {
+                                      while($row = pg_fetch_assoc($result)) {
                                         echo "<option value='". $row['nazwa'] . "'>" . $row['nazwa'] . "</option>";
                                       }
                                     } else {
                                       echo "0";
                                     }
 
-                                    mysqli_close($link);
+                                    pg_close($link);
                                 ?>
                             </select>
                     </div>
@@ -534,13 +535,8 @@
 <?php
 function wyswietl($sql)
 {
-    $host = "resourcemanagerdb.postgres.database.azure.com";
-    $database = "baza_aplikacja";
-    $user = "resourcemanager@resourcemanagerdb";
-    $password = "Trzmielu123";
-
     // Initialize connection object.
-    $connection = pg_connect("host=$host dbname=$database user=$user password=$password") 
+    $connection = pg_connect("host=resourcemanagerdb.postgres.database.azure.com dbname=baza_aplikacja user=resourcemanager@resourcemanagerdb password=Trzmielu123") 
         or die("Failed to create connection to database: ". pg_last_error(). "<br/>");
     if($connection === false){
         die("ERROR: Could not connect. " . pg_last_error());
