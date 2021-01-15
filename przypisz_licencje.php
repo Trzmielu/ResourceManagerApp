@@ -186,7 +186,7 @@
                                         if($link === false){
                                             die("ERROR: Could not connect. " . pg_last_error());
                                         }
-                                    $sql = "SELECT DISTINCT ON (nazwa) nazwa, id FROM licencja WHERE sprzet_id IS NULL and data_waznosci > NOW() ORDER BY nazwa";
+                                    $sql = "SELECT DISTINCT ON (nazwa) nazwa, id, data_waznosci FROM licencja WHERE sprzet_id IS NULL and data_waznosci > NOW() ORDER BY nazwa";
                                     $result = pg_query($link, $sql);
 
                                     if (pg_num_rows($result) > 0) {
