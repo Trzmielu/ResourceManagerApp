@@ -325,7 +325,7 @@
             
         $sql_id = "SELECT id FROM sprzet WHERE nr_seryjny = '$_POST[nr_seryjny]'";
         $que = pg_query($link, $sql_id);
-        $result = $que -> pg_fetch_assoc();
+        $result = pg_fetch_assoc($que);
         
         $sql2 = "INSERT INTO dane_techniczne_sprzetu (id_sprzet,dodatkowy_opis) VALUES (".$result["id"].",'$_POST[dodatkowy_opis]')";
 
