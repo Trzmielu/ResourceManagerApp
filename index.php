@@ -303,10 +303,10 @@
                                             <div class="h1 mb-0 font-weight-bold text-gray-800">
                                                 <?php
                                                     if(isset($_GET['jaki_sprzet']) && $_GET['jaki_sprzet'] != 'Wszystkie'){
-                                                        wyswietl("SELECT COUNT(*) AS wynik FROM sprzet t1 LEFT JOIN status t2 ON t2.id_sprzet=t1.id WHERE status = 'Zamowiony' and rodzaj = '" . $_GET['jaki_sprzet']."'");
+                                                        wyswietl("SELECT COUNT(*) AS wynik FROM sprzet t1 LEFT JOIN status t2 ON t2.id_sprzet=t1.id WHERE status = 'Zamówiony' and rodzaj = '" . $_GET['jaki_sprzet']."'");
                                                     }
                                                     else{
-                                                        wyswietl("SELECT COUNT(*) AS wynik FROM sprzet t1 LEFT JOIN status t2 ON t2.id_sprzet=t1.id WHERE status = 'Zamowiony'");
+                                                        wyswietl("SELECT COUNT(*) AS wynik FROM sprzet t1 LEFT JOIN status t2 ON t2.id_sprzet=t1.id WHERE status = 'Zamówiony'");
                                                     }
                                                 ?>
                                             </div>
