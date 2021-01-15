@@ -182,7 +182,7 @@
                         <div class="card-body">
                             <div class="table-responsive">
                                 <?php
-                                    $link = pg_connect("host=resourcemanagerdb.postgres.database.azure.com dbname=baza_aplikacja user=resourcemanager@resourcemanagerdb password=Trzmielu123") 
+                                    $link = pg_connect("host=resourcemanagerdb.postgres.database.azure.com dbname=baza_aplikacja user=resourcemanager@resourcemanagerdb password=Trzmielu123");
                                     $sql = "
                                     SELECT MODEL, NR_SERYJNY, RODZAJ_SPRZĘTU, NAZWA_UZYTKOWNIKA, STANOWISKO, STATUS, TERMIN, sprzet AS id_sprzet, dodatkowy_opis FROM
                                     (SELECT MODEL, NR_SERYJNY, RODZAJ_SPRZĘTU, NAZWA_UZYTKOWNIKA, STANOWISKO, STATUS, termin_wygasniecia AS TERMIN, t1.id_sprzet AS sprzet FROM
