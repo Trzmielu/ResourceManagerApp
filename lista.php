@@ -184,17 +184,17 @@
                                 <?php
                                     $link = pg_connect("host=resourcemanagerdb.postgres.database.azure.com dbname=baza_aplikacja user=resourcemanager@resourcemanagerdb password=Trzmielu123");
                                     $sql = "
-                                    SELECT MODEL, NR_SERYJNY, RODZAJ_SPRZĘTU, NAZWA_UZYTKOWNIKA, STANOWISKO, STATUS, TERMIN, sprzet AS id_sprzet, dodatkowy_opis FROM
-                                    (SELECT MODEL, NR_SERYJNY, RODZAJ_SPRZĘTU, NAZWA_UZYTKOWNIKA, STANOWISKO, STATUS, termin_wygasniecia AS TERMIN, t1.id_sprzet AS sprzet FROM
-                                    (SELECT model AS MODEL, nr_seryjny AS NR_SERYJNY, rodzaj AS RODZAJ_SPRZĘTU, nazwa_uzytkownika AS NAZWA_UZYTKOWNIKA, stanowisko AS STANOWISKO, status AS STATUS, sprzet.id AS id_sprzet FROM pracownik
+                                    SELECT MODEL, NR_SERYJNY, RODZAJ_SPRZETU, NAZWA_UZYTKOWNIKA, STANOWISKO, STATUS, TERMIN, sprzet AS id_sprzet, dodatkowy_opis FROM
+                                    (SELECT MODEL, NR_SERYJNY, RODZAJ_SPRZETU, NAZWA_UZYTKOWNIKA, STANOWISKO, STATUS, termin_wygasniecia AS TERMIN, t1.id_sprzet AS sprzet FROM
+                                    (SELECT model AS MODEL, nr_seryjny AS NR_SERYJNY, rodzaj AS RODZAJ_SPRZETU, nazwa_uzytkownika AS NAZWA_UZYTKOWNIKA, stanowisko AS STANOWISKO, status AS STATUS, sprzet.id AS id_sprzet FROM pracownik
                                     RIGHT JOIN status ON pracownik.id = status.id_pracownik
                                     LEFT JOIN sprzet ON status.id_sprzet = sprzet.id 
                                     UNION 
-                                    SELECT model AS MODEL, nr_seryjny AS NR_SERYJNY, rodzaj AS RODZAJ_SPRZĘTU,  nazwa_uzytkownika AS NAZWA_UZYTKOWNIKA, stanowisko AS STANOWISKO, status AS STATUS, sprzet.id AS id_sprzet FROM pracownik
+                                    SELECT model AS MODEL, nr_seryjny AS NR_SERYJNY, rodzaj AS RODZAJ_SPRZETU,  nazwa_uzytkownika AS NAZWA_UZYTKOWNIKA, stanowisko AS STANOWISKO, status AS STATUS, sprzet.id AS id_sprzet FROM pracownik
                                     RIGHT JOIN status ON pracownik.id = status.id_pracownik
                                     LEFT JOIN sprzet ON status.id_sprzet = sprzet.id 
                                     UNION
-                                    SELECT model AS MODEL, nr_seryjny AS NR_SERYJNY, rodzaj AS RODZAJ_SPRZĘTU,  nazwa_uzytkownika AS NAZWA_UZYTKOWNIKA, stanowisko AS STANOWISKO, status AS STATUS, sprzet.id AS id_sprzet FROM pracownik
+                                    SELECT model AS MODEL, nr_seryjny AS NR_SERYJNY, rodzaj AS RODZAJ_SPRZETU,  nazwa_uzytkownika AS NAZWA_UZYTKOWNIKA, stanowisko AS STANOWISKO, status AS STATUS, sprzet.id AS id_sprzet FROM pracownik
                                     RIGHT JOIN status ON pracownik.id = status.id_pracownik
                                     RIGHT JOIN sprzet ON status.id_sprzet = sprzet.id
                                     ORDER BY status DESC) t1
@@ -208,13 +208,13 @@
                                     echo "<thead><tr><th onclick='sortTable(0)'>" . 'MODEL' . "</th><th onclick='sortTable(1)'>" . 'NR SERYJNY' . "</th><th onclick='sortTable(2)'>" . 'RODZAJ SPRZĘTU' . "</th><th onclick='sortTable(3)'>" . 'DODATKOWE INFORMACJE' . "</th><th onclick='sortTable(4)'>" . 'NAZWA UŻYTKOWNIKA' . "</th><th onclick='sortTable(5)'>" . 'STANOWISKO' . "</th><th onclick='sortTable(6)'>" . 'STATUS' . "</th><th onclick='sortTable(7)'>" . 'TERMIN' . "</th></tr></thead><tbody>";
                                     while($row = pg_fetch_array($wyniki)){
                                       if($row['STATUS'] == "W użyciu"){
-                                        echo "<tr><input type='hidden' disabled name='id_sprzet' value='".$row['id_sprzet']."'><td>" . $row['model'] . "</td><td style='cursor:pointer;' onclick='detale(this)'>" . $row['NR_SERYJNY'] . "</td><td>" . $row['RODZAJ_SPRZĘTU'] . "</td><td>" . $row['dodatkowy_opis'] . "</td><td>" . $row['NAZWA_UZYTKOWNIKA'] . "</td><td>" . $row['STANOWISKO'] . "</td><td style='color:#00FF04;'>" . $row['STATUS'] . "</td><td class='data'>" . $row['TERMIN'] . "</td></tr>"; 
+                                        echo "<tr><input type='hidden' disabled name='id_sprzet' value='".$row['id_sprzet']."'><td>" . $row['MODEL'] . "</td><td style='cursor:pointer;' onclick='detale(this)'>" . $row['NR_SERYJNY'] . "</td><td>" . $row['RODZAJ_SPRZĘTU'] . "</td><td>" . $row['dodatkowy_opis'] . "</td><td>" . $row['NAZWA_UZYTKOWNIKA'] . "</td><td>" . $row['STANOWISKO'] . "</td><td style='color:#00FF04;'>" . $row['STATUS'] . "</td><td class='data'>" . $row['TERMIN'] . "</td></tr>"; 
                                         }
                                       elseif($row['STATUS'] == ""){
                                         echo "<tr><input type='hidden' disabled name='id_sprzet' value='".$row['id_sprzet']."'><td>" . $row['MODEL'] . "</td><td style='cursor:pointer;' onclick='detale(this)'>" . $row['NR_SERYJNY'] . "</td><td>" . $row['RODZAJ_SPRZĘTU'] . "</td><td>" . $row['dodatkowy_opis'] . "</td><td>" . $row['NAZWA_UZYTKOWNIKA'] . "</td><td>" . $row['STANOWISKO'] . "</td><td style='color:#ffff1a;'>Brak Statusu". "</td><td class='data'>" . $row['TERMIN'] . "</td></tr>"; 
                                       }
                                       else{
-                                        echo "<tr><input type='hidden' disabled name='id_sprzet' value='".$row['id_sprzet']."'><td>" . $row['model'] . "</td><td style='cursor:pointer;' onclick='detale(this)'>" . $row['NR_SERYJNY'] . "</td><td>" . $row['RODZAJ_SPRZĘTU'] . "</td><td>" . $row['dodatkowy_opis'] . "</td><td>" . $row['NAZWA_UZYTKOWNIKA']. "</td><td>" . $row['STANOWISKO'] . "</td><td style='color:#FF2F2F;'>" . $row['STATUS'] . "</td><td class='data'>" . $row['TERMIN'] . "</td></tr>"; 
+                                        echo "<tr><input type='hidden' disabled name='id_sprzet' value='".$row['id_sprzet']."'><td>" . $row['MODEL'] . "</td><td style='cursor:pointer;' onclick='detale(this)'>" . $row['NR_SERYJNY'] . "</td><td>" . $row['RODZAJ_SPRZĘTU'] . "</td><td>" . $row['dodatkowy_opis'] . "</td><td>" . $row['NAZWA_UZYTKOWNIKA']. "</td><td>" . $row['STANOWISKO'] . "</td><td style='color:#FF2F2F;'>" . $row['STATUS'] . "</td><td class='data'>" . $row['TERMIN'] . "</td></tr>"; 
                                       }
                                     }
                                       
