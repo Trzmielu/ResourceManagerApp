@@ -249,10 +249,10 @@
                                             <div class="h1 mb-0 font-weight-bold text-gray-800">
                                                 <?php
                                                     if(isset($_GET['jaki_sprzet']) && $_GET['jaki_sprzet'] != 'Wszystkie'){
-                                                        wyswietl("SELECT COUNT(*) AS wynik FROM sprzet t1 LEFT JOIN dane_ksiegowe_sprzetu t2 ON t2.id_sprzet=t1.id WHERE termin_wygasniecia > NOW() and termin_wygasniecia < DATE_ADD(NOW(), INTERVAL 1 YEAR) and rodzaj = '" . $_GET['jaki_sprzet']."'");
+                                                        wyswietl("SELECT COUNT(*) AS wynik FROM sprzet t1 LEFT JOIN dane_ksiegowe_sprzetu t2 ON t2.id_sprzet=t1.id WHERE termin_wygasniecia > NOW() and termin_wygasniecia < (NOW()+ INTERVAL '1 YEAR') and rodzaj = '" . $_GET['jaki_sprzet']."'");
                                                     }
                                                     else{
-                                                        wyswietl("SELECT COUNT(*) AS wynik FROM sprzet t1 LEFT JOIN dane_ksiegowe_sprzetu t2 ON t2.id_sprzet=t1.id WHERE termin_wygasniecia > NOW() and termin_wygasniecia < DATE_ADD(NOW(), INTERVAL 1 YEAR)");
+                                                        wyswietl("SELECT COUNT(*) AS wynik FROM sprzet t1 LEFT JOIN dane_ksiegowe_sprzetu t2 ON t2.id_sprzet=t1.id WHERE termin_wygasniecia > NOW() and termin_wygasniecia < (NOW()+ INTERVAL '1 YEAR')");
                                                     }
                                                 ?>
                                             </div>
