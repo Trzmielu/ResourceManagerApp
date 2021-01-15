@@ -214,7 +214,7 @@
                                         echo "<tr><input type='hidden' disabled name='id_sprzet' value='".$row['id_sprzet']."'><td>" . $row['MODEL'] . "</td><td style='cursor:pointer;' onclick='detale(this)'>" . $row['NR_SERYJNY'] . "</td><td>" . $row['RODZAJ_SPRZĘTU'] . "</td><td>" . $row['dodatkowy_opis'] . "</td><td>" . $row['NAZWA_UZYTKOWNIKA'] . "</td><td>" . $row['STANOWISKO'] . "</td><td style='color:#ffff1a;'>Brak Statusu". "</td><td class='data'>" . $row['TERMIN'] . "</td></tr>"; 
                                       }
                                       else{
-                                        echo "<tr><input type='hidden' disabled name='id_sprzet' value='".$row['id_sprzet']."'><td>" . $row['MODEL'] . "</td><td style='cursor:pointer;' onclick='detale(this)'>" . $row['NR_SERYJNY'] . "</td><td>" . $row['RODZAJ_SPRZĘTU'] . "</td><td>" . $row['dodatkowy_opis'] . "</td><td>" . $row['NAZWA_UZYTKOWNIKA']. "</td><td>" . $row['STANOWISKO'] . "</td><td style='color:#FF2F2F;'>" . $row['STATUS'] . "</td><td class='data'>" . $row['TERMIN'] . "</td></tr>"; 
+                                        echo "<tr><input type='hidden' disabled name='id_sprzet' value='".$row['id_sprzet']."'><td>" . $row['model'] . "</td><td style='cursor:pointer;' onclick='detale(this)'>" . $row['NR_SERYJNY'] . "</td><td>" . $row['RODZAJ_SPRZĘTU'] . "</td><td>" . $row['dodatkowy_opis'] . "</td><td>" . $row['NAZWA_UZYTKOWNIKA']. "</td><td>" . $row['STANOWISKO'] . "</td><td style='color:#FF2F2F;'>" . $row['STATUS'] . "</td><td class='data'>" . $row['TERMIN'] . "</td></tr>"; 
                                       }
                                     }
                                       
