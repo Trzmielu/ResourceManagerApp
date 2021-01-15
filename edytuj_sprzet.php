@@ -284,7 +284,7 @@
 
 
 <?php
-    if(isset($_POST['id']) && isset($_POST['marka']) && isset($_POST['rodzaj']) && isset($_POST['dodatkowy_opis'])){
+    if(isset($_POST['id']) && isset($_POST['marka']) && isset($_POST['rodzaj']) && isset($_POST['dodatkowy_opis']))){
 
         $link = pg_connect("host=resourcemanagerdb.postgres.database.azure.com dbname=baza_aplikacja user=resourcemanager@resourcemanagerdb password=Trzmielu123");
         if($link === false){
