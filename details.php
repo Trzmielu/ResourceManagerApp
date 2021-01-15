@@ -184,7 +184,7 @@
                         </div>
                         <div class="card-body">
                                <?php
-                                    $link = mysqli_connect("localhost", "root", "", "baza_aplikacja");
+                                    $link = pg_connect("host=resourcemanagerdb.postgres.database.azure.com dbname=baza_aplikacja user=resourcemanager@resourcemanagerdb password=Trzmielu123");
                                     $sql = "SELECT model, nr_seryjny, rodzaj, dodatkowy_opis
                                     FROM dane_techniczne_sprzetu
                                     JOIN sprzet ON dane_techniczne_sprzetu.id_sprzet = sprzet.id
@@ -198,16 +198,16 @@
                                     JOIN sprzet ON licencja.sprzet_id = sprzet.id
                                     WHERE sprzet.nr_seryjny = '$_GET[nr]'";
 
-                                    $wyniki = mysqli_query($link, $sql);
-                                    $wyniki2 = mysqli_query($link, $sql2);
-                                    $wyniki3 = mysqli_query($link, $sql3);
-                                    $wyniki3 = mysqli_query($link, $sql3);
-                                    $row2 = mysqli_fetch_array($wyniki2);
+                                    $wyniki = pg_query($link, $sql);
+                                    $wyniki2 = pg_query($link, $sql2);
+                                    $wyniki3 = pg_query($link, $sql3);
+                                    $wyniki3 = pg_query($link, $sql3);
+                                    $row2 = pg_fetch_array($wyniki2);
                                     $licencje = '';
-                                    while($row3 = mysqli_fetch_array($wyniki3)){
+                                    while($row3 = pg_fetch_array($wyniki3)){
                                             $licencje .= $row3['nazwa']."</br>";
                                     }
-                                    while($row = mysqli_fetch_array($wyniki)){
+                                    while($row = pg_fetch_array($wyniki)){
                                         echo '<div class="row">
                                                 <div class="col-xl-3 col-md-6 mb-4">
                                                     <div class="card border-left-primary shadow h-100 py-2">
@@ -326,7 +326,7 @@
                                             </div>'; 
                                     }
 
-                                    mysqli_close($link);
+                                    pg_close($link);
                                 ?>
                         </div>
                     </div>

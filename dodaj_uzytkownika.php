@@ -240,12 +240,12 @@
 
 <?php
     if(!empty($_POST['nazwa_uzytkownika']) && !empty($_POST['stanowisko'])){
-        $link = mysqli_connect("localhost", "root", "", "baza_aplikacja");
+        $link = pg_connect("host=resourcemanagerdb.postgres.database.azure.com dbname=baza_aplikacja user=resourcemanager@resourcemanagerdb password=Trzmielu123");
         if($link === false){
-            die("ERROR: Could not connect. " . mysqli_connect_error());
+            die("ERROR: Could not connect. " . pg_last_error());
         }
         $sql = "INSERT INTO `pracownik` (`nazwa_uzytkownika`, `Stanowisko`) VALUES ('$_POST[nazwa_uzytkownika]', '$_POST[stanowisko]')";
-        if(mysqli_query($link, $sql)){
+        if(pg_query($link, $sql)){
             echo("<script type='text/javascript'>
                 $('#alert_success').toast('show');
             </script>");
@@ -254,6 +254,6 @@
                 $('#alert_error').toast('show')
             </script>");
         }
-        mysqli_close($link);
+        pg_close($link);
     }
 ?>

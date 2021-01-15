@@ -182,23 +182,23 @@
                         <select class="form-control" name="rodzaj" id="rodzaj">
                             <option value="" disabled selected>WYBIERZ RODZAJ</option>
                             <?php
-                                $link = mysqli_connect("localhost", "root", "", "baza_aplikacja");
+                                $link = pg_connect("host=resourcemanagerdb.postgres.database.azure.com dbname=baza_aplikacja user=resourcemanager@resourcemanagerdb password=Trzmielu123");
                                     if($link === false){
-                                        die("ERROR: Could not connect. " . mysqli_connect_error());
+                                        die("ERROR: Could not connect. " . pg_last_error());
                                     }
                                 $sql = "SELECT nazwa FROM rodzaj";
-                                $result = mysqli_query($link, $sql);
+                                $result = pg_query($link, $sql);
 
-                                if (mysqli_num_rows($result) > 0) {
+                                if (pg_num_rows($result) > 0) {
                                   // output data of each row
-                                  while($row = mysqli_fetch_assoc($result)) {
+                                  while($row = pg_fetch_assoc($result)) {
                                     echo "<option value='".$row["nazwa"]."'>".$row["nazwa"]."</option>";
                                   }
                                 } else {
                                   echo "0 results";
                                 }
 
-                                mysqli_close($link);
+                                pg_close($link);
                             ?>
                         </select>
                         </br>
@@ -225,23 +225,23 @@
                         <select class="form-control" name="pracownik" id="pracownik" style="display: none;">
                                 <option value="NULL" selected>PODAJ UŻYTKOWNIKA</option>
                                 <?php
-                                    $link = mysqli_connect("localhost", "root", "", "baza_aplikacja");
+                                    $link = pg_connect("host=resourcemanagerdb.postgres.database.azure.com dbname=baza_aplikacja user=resourcemanager@resourcemanagerdb password=Trzmielu123");
                                         if($link === false){
-                                            die("ERROR: Could not connect. " . mysqli_connect_error());
+                                            die("ERROR: Could not connect. " . pg_last_error());
                                         }
                                     $sql = "SELECT id, nazwa_uzytkownika, stanowisko FROM pracownik";
-                                    $result = mysqli_query($link, $sql);
+                                    $result = pg_query($link, $sql);
 
-                                    if (mysqli_num_rows($result) > 0) {
+                                    if (pg_num_rows($result) > 0) {
                                       // output data of each row
-                                      while($row = mysqli_fetch_assoc($result)) {
+                                      while($row = pg_fetch_assoc($result)) {
                                         echo "<option value='".$row["id"]."'>".$row["id"]." - ".$row["nazwa_uzytkownika"]." - ".$row["stanowisko"]."</option>";
                                       }
                                     } else {
                                       echo "0 results";
                                     }
 
-                                    mysqli_close($link);
+                                    pg_close($link);
                                 ?>
                             </select>
                         <input class="form-control" type="submit" value="DODAJ">
@@ -312,19 +312,19 @@
 <?php
     if(isset($_POST['nr_seryjny']) && isset($_POST['marka']) && isset($_POST['rodzaj']) && isset($_POST['dodatkowy_opis']) && isset($_POST['status']) && isset($_POST['pracownik'])){
 
-        $link = mysqli_connect("localhost", "root", "", "baza_aplikacja");
+        $link = pg_connect("host=resourcemanagerdb.postgres.database.azure.com dbname=baza_aplikacja user=resourcemanager@resourcemanagerdb password=Trzmielu123");
         if($link === false){
-            die("ERROR: Could not connect. " . mysqli_connect_error());
+            die("ERROR: Could not connect. " . pg_last_error());
         }
         $sql = "INSERT INTO `sprzet` (`model`, `nr_seryjny`, `rodzaj`) VALUES ('$_POST[marka]', '$_POST[nr_seryjny]', '$_POST[rodzaj]')";
-        if(mysqli_query($link, $sql)){
+        if(pg_query($link, $sql)){
             $x = True;
         }else{
             $x = False;
         };
             
         $sql_id = "SELECT id FROM sprzet WHERE nr_seryjny = '$_POST[nr_seryjny]'";
-        $que = mysqli_query($link, $sql_id);
+        $que = pg_query($link, $sql_id);
         $result = $que -> fetch_assoc();
         
         $sql2 = "INSERT INTO `dane_techniczne_sprzetu` (`id_sprzet`,`dodatkowy_opis`) VALUES (".$result["id"].",'$_POST[dodatkowy_opis]')";
@@ -340,7 +340,7 @@
 
         
 
-        if($x && mysqli_query($link, $sql2) && mysqli_query($link, $sql3) && mysqli_query($link, $sql4)){
+        if($x && pg_query($link, $sql2) && pg_query($link, $sql3) && pg_query($link, $sql4)){
             echo("<script type='text/javascript'>
                 $('#alert_success').toast('show')
             </script>");
@@ -350,6 +350,6 @@
             </script>");
         }
 
-        mysqli_close($link);
+        pg_close($link);
     }
 ?>

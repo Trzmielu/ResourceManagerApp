@@ -244,15 +244,15 @@
 <?php
     if(isset($_POST['nazwa_licencji']) && isset($_POST['ilosc_licencji']) && isset($_POST['data_wygasniecia'])){
 
-        $link = mysqli_connect("localhost", "root", "", "baza_aplikacja");
+        $link = pg_connect("host=resourcemanagerdb.postgres.database.azure.com dbname=baza_aplikacja user=resourcemanager@resourcemanagerdb password=Trzmielu123");
         if($link === false){
-            die("ERROR: Could not connect. " . mysqli_connect_error());
+            die("ERROR: Could not connect. " . pg_last_error());
         }
         $sql = "INSERT INTO `licencja` (`nazwa`, `data_waznosci`) VALUES ('$_POST[nazwa_licencji]', '$_POST[data_wygasniecia]')";
 
 
         for($i=0; $i < $_POST['ilosc_licencji'];$i++){
-            if(mysqli_query($link, $sql)){
+            if(pg_query($link, $sql)){
                 echo("<script type='text/javascript'>
                 $('#alert_success').toast('show')
                 </script>");
@@ -263,6 +263,6 @@
                 </script>");
             };
         }
-        mysqli_close($link);
+        pg_close($link);
     }
 ?>

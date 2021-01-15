@@ -185,16 +185,16 @@
                                     $link = pg_connect("host=resourcemanagerdb.postgres.database.azure.com dbname=baza_aplikacja user=resourcemanager@resourcemanagerdb password=Trzmielu123") 
                                     $sql = "
                                     SELECT MODEL, NR_SERYJNY, RODZAJ_SPRZĘTU, NAZWA_UZYTKOWNIKA, STANOWISKO, STATUS, TERMIN, sprzet AS id_sprzet, dodatkowy_opis FROM
-                                    (SELECT MODEL, NR_SERYJNY, RODZAJ_SPRZĘTU, NAZWA_UZYTKOWNIKA, STANOWISKO, STATUS, termin_wygasniecia AS 'TERMIN', t1.id_sprzet AS 'sprzet' FROM
-                                    (SELECT model AS 'MODEL', nr_seryjny AS 'NR_SERYJNY', rodzaj AS 'RODZAJ_SPRZĘTU', nazwa_uzytkownika AS 'NAZWA_UZYTKOWNIKA', stanowisko AS 'STANOWISKO', status AS 'STATUS', sprzet.id AS 'id_sprzet'FROM pracownik
+                                    (SELECT MODEL, NR_SERYJNY, RODZAJ_SPRZĘTU, NAZWA_UZYTKOWNIKA, STANOWISKO, STATUS, termin_wygasniecia AS TERMIN, t1.id_sprzet AS sprzet FROM
+                                    (SELECT model AS MODEL, nr_seryjny AS NR_SERYJNY, rodzaj AS RODZAJ_SPRZĘTU, nazwa_uzytkownika AS NAZWA_UZYTKOWNIKA, stanowisko AS STANOWISKO, status AS STATUS, sprzet.id AS id_sprzet FROM pracownik
                                     RIGHT JOIN status ON pracownik.id = status.id_pracownik
                                     LEFT JOIN sprzet ON status.id_sprzet = sprzet.id 
                                     UNION 
-                                    SELECT model AS 'MODEL', nr_seryjny AS 'NR_SERYJNY', rodzaj AS 'RODZAJ_SPRZĘTU',  nazwa_uzytkownika AS 'NAZWA_UZYTKOWNIKA', stanowisko AS 'STANOWISKO', status AS 'STATUS', sprzet.id AS 'id_sprzet' FROM pracownik
+                                    SELECT model AS MODEL, nr_seryjny AS NR_SERYJNY, rodzaj AS RODZAJ_SPRZĘTU,  nazwa_uzytkownika AS NAZWA_UZYTKOWNIKA, stanowisko AS STANOWISKO, status AS STATUS, sprzet.id AS id_sprzet FROM pracownik
                                     RIGHT JOIN status ON pracownik.id = status.id_pracownik
                                     LEFT JOIN sprzet ON status.id_sprzet = sprzet.id 
                                     UNION
-                                    SELECT model AS 'MODEL', nr_seryjny AS 'NR_SERYJNY', rodzaj AS 'RODZAJ_SPRZĘTU',  nazwa_uzytkownika AS 'NAZWA_UZYTKOWNIKA', stanowisko AS 'STANOWISKO', status AS 'STATUS', sprzet.id AS 'id_sprzet' FROM pracownik
+                                    SELECT model AS MODEL, nr_seryjny AS NR_SERYJNY, rodzaj AS RODZAJ_SPRZĘTU,  nazwa_uzytkownika AS NAZWA_UZYTKOWNIKA, stanowisko AS STANOWISKO, status AS STATUS, sprzet.id AS id_sprzet FROM pracownik
                                     RIGHT JOIN status ON pracownik.id = status.id_pracownik
                                     RIGHT JOIN sprzet ON status.id_sprzet = sprzet.id
                                     ORDER BY status DESC) t1
@@ -446,9 +446,9 @@
 
 <?php
   if(isset($_POST['nazwa_uzytkownika']) && isset($_POST['id_sprzet']) && isset($_POST['statusy']) && $_POST['statusy'] != 'NULL' && !($_POST['statusy'] == 'W użyciu' && $_POST['nazwa_uzytkownika'] == 'NULL') && isset($_POST['dodatkowy_opis'])){
-    $link = mysqli_connect("localhost", "root", "", "baza_aplikacja");
+    $link = pg_connect("host=resourcemanagerdb.postgres.database.azure.com dbname=baza_aplikacja user=resourcemanager@resourcemanagerdb password=Trzmielu123")
     if($link === false){
-      die("ERROR: Could not connect. " . mysqli_connect_error());
+      die("ERROR: Could not connect. " . pg_last_error());
     }
     if($_POST['nazwa_uzytkownika'] == "NULL"){
       $sql = "UPDATE `status` SET id_pracownik = NULL, id_sprzet = '$_POST[id_sprzet]', status = '$_POST[statusy]' WHERE id_sprzet='$_POST[id_sprzet]'";
@@ -458,7 +458,7 @@
     }
     $sql2 = "UPDATE `dane_techniczne_sprzetu` SET dodatkowy_opis = '$_POST[dodatkowy_opis]' WHERE id_sprzet='$_POST[id_sprzet]'";
 
-    if(mysqli_query($link, $sql2) && mysqli_query($link, $sql)){
+    if(pg_query($link, $sql2) && pg_query($link, $sql)){
         echo "<meta http-equiv='refresh' content='0'>";
         echo('<script type="text/javascript">
                     $("#alert_success").toast("show");
@@ -470,7 +470,7 @@
                 $('#alert_error').toast('show');
             </script>");
     }
-   mysqli_close($link); 
+   pg_close()($link); 
   }
 ?>
 
