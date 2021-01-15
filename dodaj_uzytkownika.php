@@ -244,7 +244,7 @@
         if($link === false){
             die("ERROR: Could not connect. " . pg_last_error());
         }
-        $sql = "INSERT INTO `pracownik` (`nazwa_uzytkownika`, `Stanowisko`) VALUES ('$_POST[nazwa_uzytkownika]', '$_POST[stanowisko]')";
+        $sql = "INSERT INTO pracownik (nazwa_uzytkownika, Stanowisko) VALUES ('$_POST[nazwa_uzytkownika]', '$_POST[stanowisko]')";
         if(pg_query($link, $sql)){
             echo("<script type='text/javascript'>
                 $('#alert_success').toast('show');

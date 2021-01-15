@@ -182,24 +182,24 @@
                         <div class="card-body">
                             <div class="table-responsive">
                                 <?php
-                                    $link = mysqli_connect("localhost", "root", "", "baza_aplikacja");
+                                    $link = pg_connect("host=resourcemanagerdb.postgres.database.azure.com dbname=baza_aplikacja user=resourcemanager@resourcemanagerdb password=Trzmielu123");
                                     $sql = "
                                     SELECT licencja.id, nazwa, data_waznosci, sprzet_id, nr_seryjny
                                     FROM licencja
                                     LEFT JOIN sprzet ON sprzet.id = licencja.sprzet_id 
                                     ORDER BY data_waznosci";
 
-                                    $wyniki = mysqli_query($link, $sql);
+                                    $wyniki = pg_query($link, $sql);
                                     echo "<form method='POST' action='lista.php' autocomplete='off'>";
                                     echo "<table class='table table-bordered' id='dataTable'width='100%' cellspacing='0'>";
                                     echo "<thead><tr><th onclick='sortTable(0)'>" . 'ID' . "</th><th onclick='sortTable(1)'>" . 'NAZWA' . "</th><th onclick='sortTable(2)'>" . 'DATA WAŻNOŚCI' . "</th><th onclick='sortTable(3)'>" . 'NR SERYJNY SPRZĘTU' . "</th><th onclick='sortTable(3)'>" . 'STATUS' . "</th></tr></thead><tbody>";
-                                    while($row = mysqli_fetch_array($wyniki)){
+                                    while($row = pg_fetch_array($wyniki)){
                                         echo "<tr><td>" . $row['id'] . "</td><td>" . $row['nazwa'] . "</td><td class='data'>" . $row['data_waznosci'] . "</td><td>" . $row['nr_seryjny'] . "</td><td class='status'>" . $row['sprzet_id'] . "</td></tr>"; 
                                     }
                                       
                                     echo "</tbody></table></form>";
 
-                                    mysqli_close($link);
+                                    pg_close($link);
                                 ?>
                             </div>
                         </div>

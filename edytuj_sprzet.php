@@ -290,10 +290,10 @@
         if($link === false){
             die("ERROR: Could not connect. " . pg_last_error());
         }
-        $sql = "UPDATE `sprzet` SET model = '$_POST[marka]', rodzaj = '$_POST[rodzaj]' WHERE id='$_POST[id]'";
+        $sql = "UPDATE sprzet SET model = '$_POST[marka]', rodzaj = '$_POST[rodzaj]' WHERE id='$_POST[id]'";
 
 
-        $sql2 = "UPDATE `dane_techniczne_sprzetu` SET dodatkowy_opis = '$_POST[dodatkowy_opis]' WHERE id_sprzet='$_POST[id]'";
+        $sql2 = "UPDATE dane_techniczne_sprzetu SET dodatkowy_opis = '$_POST[dodatkowy_opis]' WHERE id_sprzet='$_POST[id]'";
 
         if(pg_query($link, $sql) && pg_query($link, $sql2)){
             echo("<script type='text/javascript'>

@@ -278,7 +278,7 @@
 
 <?php
   $options = '';
-  $link = pg_connect("host=resourcemanagerdb.postgres.database.azure.com dbname=baza_aplikacja user=resourcemanager@resourcemanagerdb password=Trzmielu123")
+  $link = pg_connect("host=resourcemanagerdb.postgres.database.azure.com dbname=baza_aplikacja user=resourcemanager@resourcemanagerdb password=Trzmielu123");
     if($link === false){
       die("ERROR: Could not connect. " . pg_last_error());
     }
@@ -446,17 +446,17 @@
 
 <?php
   if(isset($_POST['nazwa_uzytkownika']) && isset($_POST['id_sprzet']) && isset($_POST['statusy']) && $_POST['statusy'] != 'NULL' && !($_POST['statusy'] == 'W użyciu' && $_POST['nazwa_uzytkownika'] == 'NULL') && isset($_POST['dodatkowy_opis'])){
-    $link = pg_connect("host=resourcemanagerdb.postgres.database.azure.com dbname=baza_aplikacja user=resourcemanager@resourcemanagerdb password=Trzmielu123")
+    $link = pg_connect("host=resourcemanagerdb.postgres.database.azure.com dbname=baza_aplikacja user=resourcemanager@resourcemanagerdb password=Trzmielu123");
     if($link === false){
       die("ERROR: Could not connect. " . pg_last_error());
     }
     if($_POST['nazwa_uzytkownika'] == "NULL"){
-      $sql = "UPDATE `status` SET id_pracownik = NULL, id_sprzet = '$_POST[id_sprzet]', status = '$_POST[statusy]' WHERE id_sprzet='$_POST[id_sprzet]'";
+      $sql = "UPDATE status SET id_pracownik = NULL, id_sprzet = '$_POST[id_sprzet]', status = '$_POST[statusy]' WHERE id_sprzet='$_POST[id_sprzet]'";
     }
     else{
-      $sql = "UPDATE `status` SET id_pracownik = '$_POST[nazwa_uzytkownika]', id_sprzet = '$_POST[id_sprzet]', status = '$_POST[statusy]' WHERE id_sprzet='$_POST[id_sprzet]'";
+      $sql = "UPDATE status SET id_pracownik = '$_POST[nazwa_uzytkownika]', id_sprzet = '$_POST[id_sprzet]', status = '$_POST[statusy]' WHERE id_sprzet='$_POST[id_sprzet]'";
     }
-    $sql2 = "UPDATE `dane_techniczne_sprzetu` SET dodatkowy_opis = '$_POST[dodatkowy_opis]' WHERE id_sprzet='$_POST[id_sprzet]'";
+    $sql2 = "UPDATE dane_techniczne_sprzetu SET dodatkowy_opis = '$_POST[dodatkowy_opis]' WHERE id_sprzet='$_POST[id_sprzet]'";
 
     if(pg_query($link, $sql2) && pg_query($link, $sql)){
         echo "<meta http-equiv='refresh' content='0'>";

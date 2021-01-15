@@ -316,7 +316,7 @@
         if($link === false){
             die("ERROR: Could not connect. " . pg_last_error());
         }
-        $sql = "INSERT INTO `sprzet` (`model`, `nr_seryjny`, `rodzaj`) VALUES ('$_POST[marka]', '$_POST[nr_seryjny]', '$_POST[rodzaj]')";
+        $sql = "INSERT INTO sprzet (model, nr_seryjny, rodzaj) VALUES ('$_POST[marka]', '$_POST[nr_seryjny]', '$_POST[rodzaj]')";
         if(pg_query($link, $sql)){
             $x = True;
         }else{
@@ -327,16 +327,16 @@
         $que = pg_query($link, $sql_id);
         $result = $que -> fetch_assoc();
         
-        $sql2 = "INSERT INTO `dane_techniczne_sprzetu` (`id_sprzet`,`dodatkowy_opis`) VALUES (".$result["id"].",'$_POST[dodatkowy_opis]')";
+        $sql2 = "INSERT INTO dane_techniczne_sprzetu (id_sprzet,dodatkowy_opis) VALUES (".$result["id"].",'$_POST[dodatkowy_opis]')";
 
         $priv = $_POST["pracownik"];
         if($priv == "NULL"){
-            $sql4 = "INSERT INTO `status` (`id_sprzet`, `status`, `id_pracownik`) VALUES (".$result["id"].", '$_POST[status]',NULL)";
+            $sql4 = "INSERT INTO status (id_sprzet, status, id_pracownik) VALUES (".$result["id"].", '$_POST[status]',NULL)";
         }
         else{
-            $sql4 = "INSERT INTO `status` (`id_sprzet`, `status`, `id_pracownik`) VALUES (".$result["id"].", '$_POST[status]','$_POST[pracownik]')";
+            $sql4 = "INSERT INTO status (id_sprzet, status, id_pracownik) VALUES (".$result["id"].", '$_POST[status]','$_POST[pracownik]')";
         }
-        $sql3 = "INSERT INTO `dane_ksiegowe_sprzetu` (`id_sprzet`, `termin_wygasniecia`) VALUES (".$result["id"].", '$_POST[data_wygasniecia]')";
+        $sql3 = "INSERT INTO dane_ksiegowe_sprzetu (id_sprzet, termin_wygasniecia) VALUES (".$result["id"].", '$_POST[data_wygasniecia]')";
 
         
 

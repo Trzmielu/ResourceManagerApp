@@ -181,23 +181,23 @@
                     <form action="/usun_status_sprzet.php" method="POST" autocomplete="off">
                         <select class="form-control" name="sprzet" id="sprzet">
                             <?php
-                                $link = mysqli_connect("localhost", "root", "", "baza_aplikacja");
+                                $link = pg_connect("host=resourcemanagerdb.postgres.database.azure.com dbname=baza_aplikacja user=resourcemanager@resourcemanagerdb password=Trzmielu123");
                                     if($link === false){
-                                        die("ERROR: Could not connect. " . mysqli_connect_error());
+                                        die("ERROR: Could not connect. " . pg_last_error());
                                     }
                                 $sql = "SELECT t1.id as 'id', t1.nr_seryjny as 'nr', t2.status as 'status' FROM sprzet t1 JOIN status t2 ON t1.id = t2.id_sprzet";
-                                $result = mysqli_query($link, $sql);
+                                $result = pg_query($link, $sql);
 
-                                if (mysqli_num_rows($result) > 0) {
+                                if (pg_num_rows($result) > 0) {
                                   // output data of each row
-                                  while($row = mysqli_fetch_assoc($result)) {
+                                  while($row = pg_fetch_assoc($result)) {
                                     echo "<option value='".$row['id']."'>".$row['nr']." - ".$row['status']."</option>";
                                   }
                                 } else {
                                   echo "0 results";
                                 }
 
-                                mysqli_close($link);
+                                pg_close($link);
                             ?>
                         </select>
                         </br>
@@ -257,12 +257,12 @@
 
 <?php
     if(isset($_POST['sprzet'])){
-        $link = mysqli_connect("localhost", "root", "", "baza_aplikacja");
+        $link = pg_connect("host=resourcemanagerdb.postgres.database.azure.com dbname=baza_aplikacja user=resourcemanager@resourcemanagerdb password=Trzmielu123");
         if($link === false){
-            die("ERROR: Could not connect. " . mysqli_connect_error());
+            die("ERROR: Could not connect. " . pg_last_error());
         }
-        $sql = "DELETE FROM `status` WHERE id_sprzet = '$_POST[sprzet]'";
-        if(mysqli_query($link, $sql)){
+        $sql = "DELETE FROM status WHERE id_sprzet = '$_POST[sprzet]'";
+        if(pg_query($link, $sql)){
             echo("<script type='text/javascript'>
                 $('#alert_success').toast('show');
             </script>");
@@ -271,6 +271,6 @@
                 $('#alert_error').toast('show');
             </script>");
         }
-        mysqli_close($link);
+        pg_close($link);
     }
 ?>

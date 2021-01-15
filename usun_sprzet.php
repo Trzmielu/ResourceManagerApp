@@ -180,23 +180,23 @@
                     <select class="form-control" name='id'>
                         <option value="" disabled selected>PODAJ NUMER SERYJNY</option>
                         <?php
-                            $link = mysqli_connect("localhost", "root", "", "baza_aplikacja");
+                            $link = pg_connect("host=resourcemanagerdb.postgres.database.azure.com dbname=baza_aplikacja user=resourcemanager@resourcemanagerdb password=Trzmielu123");
                                 if($link === false){
-                                    die("ERROR: Could not connect. " . mysqli_connect_error());
+                                    die("ERROR: Could not connect. " . pg_last_error());
                                 }
                             $sql = "SELECT id, nr_seryjny FROM sprzet";
-                            $result = mysqli_query($link, $sql);
+                            $result = pg_query($link, $sql);
 
-                            if (mysqli_num_rows($result) > 0) {
+                            if (pg_num_rows($result) > 0) {
                               // output data of each row
-                              while($row = mysqli_fetch_assoc($result)) {
+                              while($row = pg_fetch_assoc($result)) {
                                 echo "<option value='".$row["id"]."'>".$row["nr_seryjny"]."</option>";
                               }
                             } else {
                               echo "0 results";
                             }
 
-                            mysqli_close($link);
+                            pg_close($link);
                         ?>
                     </select>
                     </br>
@@ -257,16 +257,16 @@
 
 <?php
     if(isset($_POST['id'])){
-        $link = mysqli_connect("localhost", "root", "", "baza_aplikacja");
+        $link = pg_connect("host=resourcemanagerdb.postgres.database.azure.com dbname=baza_aplikacja user=resourcemanager@resourcemanagerdb password=Trzmielu123");
         if($link === false){
-            die("ERROR: Could not connect. " . mysqli_connect_error());
+            die("ERROR: Could not connect. " . pg_last_error());
         }
-        $sql = "DELETE FROM `sprzet` WHERE id = '$_POST[id]'";
-        $sql2 = "DELETE FROM `dane_techniczne_sprzetu` WHERE id_sprzet = '$_POST[id]'";
-        $sql3 = "DELETE FROM `dane_ksiegowe_sprzetu` WHERE id_sprzet = '$_POST[id]'";
-        $sql4 = "DELETE FROM `status` WHERE id_sprzet = '$_POST[id]'";
+        $sql = "DELETE FROM sprzet WHERE id = '$_POST[id]'";
+        $sql2 = "DELETE FROM dane_techniczne_sprzetu WHERE id_sprzet = '$_POST[id]'";
+        $sql3 = "DELETE FROM dane_ksiegowe_sprzetu WHERE id_sprzet = '$_POST[id]'";
+        $sql4 = "DELETE FROM status WHERE id_sprzet = '$_POST[id]'";
 
-        if(mysqli_query($link, $sql) && mysqli_query($link, $sql2) && mysqli_query($link, $sql3) && mysqli_query($link, $sql4)){
+        if(pg_query($link, $sql) && pg_query($link, $sql2) && pg_query($link, $sql3) && pg_query($link, $sql4)){
             echo("<script type='text/javascript'>
                 $('#alert_success').toast('show');
             </script>");
@@ -275,6 +275,6 @@
                 $('#alert_error').toast('show');
             </script>");
         };
-        mysqli_close($link);
+        pg_close($link);
     }
 ?>

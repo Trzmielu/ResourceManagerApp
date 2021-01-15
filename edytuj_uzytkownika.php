@@ -180,23 +180,23 @@
                         <select class="form-control" name='id'>
                             <option value="" disabled selected>WYBIERZ UŻYTKOWNIKA</option>
                             <?php
-                                $link = mysqli_connect("localhost", "root", "", "baza_aplikacja");
+                                $link = pg_connect("host=resourcemanagerdb.postgres.database.azure.com dbname=baza_aplikacja user=resourcemanager@resourcemanagerdb password=Trzmielu123");
                                     if($link === false){
-                                        die("ERROR: Could not connect. " . mysqli_connect_error());
+                                        die("ERROR: Could not connect. " . pg_last_error());
                                     }
                                 $sql = "SELECT id, nazwa_uzytkownika,stanowisko FROM pracownik";
-                                $result = mysqli_query($link, $sql);
+                                $result = pg_query($link, $sql);
 
-                                if (mysqli_num_rows($result) > 0) {
+                                if (pg_num_rows($result) > 0) {
                                   // output data of each row
-                                  while($row = mysqli_fetch_assoc($result)) {
+                                  while($row = pg_fetch_assoc($result)) {
                                     echo "<option value='".$row["id"]."'>".$row["nazwa_uzytkownika"]." ".$row["stanowisko"]."</option>";
                                   }
                                 } else {
                                   echo "0 results";
                                 }
 
-                                mysqli_close($link);
+                                pg_close($link);
                             ?>
                         </select>
                         </br>
@@ -260,12 +260,12 @@
 
 <?php
     if(isset($_POST['id']) && isset($_POST['nazwa_uzytkownika']) && isset($_POST['stanowisko'])){
-        $link = mysqli_connect("localhost", "root", "", "baza_aplikacja");
+        $link = pg_connect("host=resourcemanagerdb.postgres.database.azure.com dbname=baza_aplikacja user=resourcemanager@resourcemanagerdb password=Trzmielu123");
         if($link === false){
-            die("ERROR: Could not connect. " . mysqli_connect_error());
+            die("ERROR: Could not connect. " . pg_last_error());
         }
-        $sql = "UPDATE `pracownik` SET nazwa_uzytkownika = '$_POST[nazwa_uzytkownika]', stanowisko = '$_POST[stanowisko]' WHERE id='$_POST[id]'";
-        if(mysqli_query($link, $sql)){
+        $sql = "UPDATE pracownik SET nazwa_uzytkownika = '$_POST[nazwa_uzytkownika]', stanowisko = '$_POST[stanowisko]' WHERE id='$_POST[id]'";
+        if(pg_query($link, $sql)){
             echo("<script type='text/javascript'>
                 $('#alert_success').toast('show');
             </script>");
@@ -274,6 +274,6 @@
                 $('#alert_error').toast('show');
             </script>");
         }
-        mysqli_close($link);
+        pg_close($link);
     }
 ?>

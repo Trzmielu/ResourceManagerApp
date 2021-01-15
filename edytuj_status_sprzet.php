@@ -181,23 +181,23 @@
                     <form action="./edytuj_status_sprzet.php" method="POST" autocomplete="off">
                         <select class="form-control" name="sprzet" id="sprzet">
                             <?php
-                                $link = mysqli_connect("localhost", "root", "", "baza_aplikacja");
+                                $link = pg_connect("host=resourcemanagerdb.postgres.database.azure.com dbname=baza_aplikacja user=resourcemanager@resourcemanagerdb password=Trzmielu123");
                                     if($link === false){
-                                        die("ERROR: Could not connect. " . mysqli_connect_error());
+                                        die("ERROR: Could not connect. " . pg_last_error());
                                     }
                                 $sql = "SELECT id, model, nr_seryjny, rodzaj FROM sprzet";
-                                $result = mysqli_query($link, $sql);
+                                $result = pg_query($link, $sql);
 
-                                if (mysqli_num_rows($result) > 0) {
+                                if (pg_num_rows($result) > 0) {
                                   // output data of each row
-                                  while($row = mysqli_fetch_assoc($result)) {
+                                  while($row = pg_fetch_assoc($result)) {
                                     echo "<option value='".$row["id"]."'>".$row["id"]." - ".$row["nr_seryjny"]." - ".$row["rodzaj"]."</option>";
                                   }
                                 } else {
                                   echo "0 results";
                                 }
 
-                                mysqli_close($link);
+                                pg_close($link);
                             ?>
                         </select>
                         </br>
@@ -213,23 +213,23 @@
                             <select class="form-control" name="pracownik" id="pracownik">
                                 <option value="NULL" selected>PODAJ UŻYTKOWNIKA</option>
                                 <?php
-                                    $link = mysqli_connect("localhost", "root", "", "baza_aplikacja");
+                                    $link = pg_connect("host=resourcemanagerdb.postgres.database.azure.com dbname=baza_aplikacja user=resourcemanager@resourcemanagerdb password=Trzmielu123");
                                         if($link === false){
-                                            die("ERROR: Could not connect. " . mysqli_connect_error());
+                                            die("ERROR: Could not connect. " . pg_last_error());
                                         }
                                     $sql = "SELECT id, nazwa_uzytkownika, stanowisko FROM pracownik";
-                                    $result = mysqli_query($link, $sql);
+                                    $result = pg_query($link, $sql);
 
-                                    if (mysqli_num_rows($result) > 0) {
+                                    if (pg_num_rows($result) > 0) {
                                       // output data of each row
-                                      while($row = mysqli_fetch_assoc($result)) {
+                                      while($row = pg_fetch_assoc($result)) {
                                         echo "<option value='".$row["id"]."'>".$row["id"]." - ".$row["nazwa_uzytkownika"]." - ".$row["stanowisko"]."</option>";
                                       }
                                     } else {
                                       echo "0 results";
                                     }
 
-                                    mysqli_close($link);
+                                    pg_close($link);
                                 ?>
                             </select>
                             </label>
@@ -302,24 +302,24 @@
 
  <?php
     if(isset($_POST['sprzet']) && isset($_POST['pracownik']) && isset($_POST['status'])){
-        $link = mysqli_connect("localhost", "root", "", "baza_aplikacja");
+        $link = pg_connect("host=resourcemanagerdb.postgres.database.azure.com dbname=baza_aplikacja user=resourcemanager@resourcemanagerdb password=Trzmielu123");
         if($link === false){
-            die("ERROR: Could not connect. " . mysqli_connect_error());
+            die("ERROR: Could not connect. " . pg_last_error());
         }
 
         $sql1 = "SELECT COUNT(*) FROM status WHERE id_sprzet = '$_POST[sprzet]'";
-        $que = mysqli_query($link, $sql1);
+        $que = pg_query($link, $sql1);
         $result = $que -> fetch_assoc();
         if($result["COUNT(*)"] > 0){
             $priv = $_POST["pracownik"];
               if($priv == "NULL"){
-                $sql = "UPDATE `status` SET id_pracownik = NULL, id_sprzet = '$_POST[sprzet]', status = '$_POST[status]' WHERE id_sprzet='$_POST[sprzet]'";
+                $sql = "UPDATE status SET id_pracownik = NULL, id_sprzet = '$_POST[sprzet]', status = '$_POST[status]' WHERE id_sprzet='$_POST[sprzet]'";
               }
               else{
-                $sql = "UPDATE `status` SET id_pracownik = '$_POST[pracownik]', id_sprzet = '$_POST[sprzet]', status = '$_POST[status]' WHERE id_sprzet='$_POST[sprzet]'";
+                $sql = "UPDATE status SET id_pracownik = '$_POST[pracownik]', id_sprzet = '$_POST[sprzet]', status = '$_POST[status]' WHERE id_sprzet='$_POST[sprzet]'";
               }
             
-            if(mysqli_query($link, $sql)){
+            if(pg_query($link, $sql)){
                 echo("<script type='text/javascript'>
                     $('#alert_success').toast('show');
                 </script>");
@@ -332,12 +332,12 @@
         else{
             $priv = $_POST["pracownik"];
             if($priv == "NULL"){
-              $sql2 = "INSERT INTO `status` (`id_pracownik`, `id_sprzet`, `status`) VALUES (NULL, '$_POST[sprzet]', '$_POST[status]')";
+              $sql2 = "INSERT INTO status (id_pracownik, id_sprzet, status) VALUES (NULL, '$_POST[sprzet]', '$_POST[status]')";
             }
             else{
-              $sql2 = "INSERT INTO `status` (`id_pracownik`, `id_sprzet`, `status`) VALUES ('$_POST[pracownik]', '$_POST[sprzet]', '$_POST[status]')";
+              $sql2 = "INSERT INTO status (id_pracownik, id_sprzet, status) VALUES ('$_POST[pracownik]', '$_POST[sprzet]', '$_POST[status]')";
             }
-            if(mysqli_query($link, $sql2)){
+            if(pg_query($link, $sql2)){
                 echo("<script type='text/javascript'>
                     $('#alert_success').toast('show');
                 </script>");
@@ -347,6 +347,6 @@
                 </script>");
             }
         }
-        mysqli_close($link);
+        pg_close($link);
     }
 ?>

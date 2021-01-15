@@ -248,7 +248,7 @@
         if($link === false){
             die("ERROR: Could not connect. " . pg_last_error());
         }
-        $sql = "INSERT INTO `licencja` (`nazwa`, `data_waznosci`) VALUES ('$_POST[nazwa_licencji]', '$_POST[data_wygasniecia]')";
+        $sql = "INSERT INTO licencja (nazwa, data_waznosci) VALUES ('$_POST[nazwa_licencji]', '$_POST[data_wygasniecia]')";
 
 
         for($i=0; $i < $_POST['ilosc_licencji'];$i++){
