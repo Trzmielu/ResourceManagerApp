@@ -266,7 +266,7 @@
         $sql3 = "DELETE FROM dane_ksiegowe_sprzetu WHERE id_sprzet = '$_POST[id]'";
         $sql4 = "DELETE FROM status WHERE id_sprzet = '$_POST[id]'";
 
-        if(pg_query($link, $sql) && pg_query($link, $sql2) && pg_query($link, $sql3) && pg_query($link, $sql4)){
+        if(pg_query($link, $sql2) && pg_query($link, $sql3) && pg_query($link, $sql4) && pg_query($link, $sql)){
             echo("<script type='text/javascript'>
                 $('#alert_success').toast('show');
             </script>");
