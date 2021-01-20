@@ -185,7 +185,7 @@
                                     if($link === false){
                                         die("ERROR: Could not connect. " . pg_last_error());
                                     }
-                                $sql = "SELECT t1.id as 'id', t1.nr_seryjny as 'nr', t2.status as 'status' FROM sprzet t1 JOIN status t2 ON t1.id = t2.id_sprzet";
+                                $sql = "SELECT t1.id as id, t1.nr_seryjny as nr, t2.status as status FROM sprzet t1 JOIN status t2 ON t1.id = t2.id_sprzet";
                                 $result = pg_query($link, $sql);
 
                                 if (pg_num_rows($result) > 0) {
