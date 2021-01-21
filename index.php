@@ -463,7 +463,7 @@
                                                         wyswietl("SELECT COUNT(*) AS wynik FROM licencja WHERE data_waznosci > NOW() and data_waznosci < (NOW()+ INTERVAL '1 YEAR') and nazwa = '" . $_GET['jaka_licencja']."'");
                                                     }
                                                     else{
-                                                        wyswietl("SELECT COUNT(*) AS wynik FROM licencja WHERE data_waznosci > NOW() and termin_wygasniecia < (NOW()+ INTERVAL '1 YEAR') and data_waznosci < (NOW()+ INTERVAL '1 YEAR')");
+                                                        wyswietl("SELECT COUNT(*) AS wynik FROM licencja WHERE data_waznosci > NOW() and data_waznosci < (NOW()+ INTERVAL '1 YEAR')");
                                                     }
                                                 ?>
                                             </div>
