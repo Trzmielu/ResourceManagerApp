@@ -399,7 +399,7 @@
         document.getElementsByClassName('data')[i].style.color = '#fa5448';
     }
     else if(Date.parse(document.getElementsByClassName('data')[i].innerText) > Date.now() && Date.parse(document.getElementsByClassName('data')[i].innerText) <= Date.parse(date)){
-        document.getElementsByClassName('data')[i].style.color = 'yellow';
+        document.getElementsByClassName('data')[i].style.color = '#E5E500';
     }
     else {
         document.getElementsByClassName('data')[i].style.color = '#00FF04';
