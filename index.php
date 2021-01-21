@@ -424,6 +424,32 @@
                             </div>
                         </div>
 
+                        <div class="col-xl-3 col-md-6 mb-4"> 
+                            <div class="card border-left-danger shadow h-100 py-2">
+                                <div class="card-body">
+                                    <div class="row no-gutters align-items-center">
+                                        <div class="col mr-2">
+                                            <div class="text-s font-weight-bold text-danger text-uppercase mb-1">
+                                                Wygasłe</div>
+                                            <div class="h1 mb-0 font-weight-bold text-gray-800">
+                                                <?php
+                                                    if(isset($_GET['jaka_licencja']) && $_GET['jaka_licencja'] != 'Wszystkie'){
+                                                        wyswietl("SELECT COUNT(*) AS wynik FROM licencja WHERE data_waznosci < NOW() and nazwa = '" . $_GET['jaka_licencja']."'");
+                                                    }
+                                                    else{
+                                                        wyswietl("SELECT COUNT(*) AS wynik FROM licencja WHERE data_waznosci < NOW()");
+                                                    }
+                                                ?>
+                                            </div>
+                                        </div>
+                                        <div class="col-auto">
+                                            <i class="fas fa-laptop fa-2x text-gray-300"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
                         <div class="col-xl-3 col-md-6 mb-4">
                             <div class="card border-left-success shadow h-100 py-2">
                                 <div class="card-body">
