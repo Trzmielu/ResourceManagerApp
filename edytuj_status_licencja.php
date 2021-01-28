@@ -34,7 +34,7 @@
             <!-- Sidebar - Brand -->
             <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.php">
                 <img width="30%" src="./img/logo.ico"></img>
-                <div class="sidebar-brand-text mx-3">MF<sup>Expert</sup></div>
+                <div class="sidebar-brand-text mx-3">Company</div>
             </a>
 
             <!-- Divider -->
@@ -186,7 +186,7 @@
             <footer class="sticky-footer bg-white">
                 <div class="container my-auto">
                     <div class="copyright text-center my-auto">
-                        <span>Copyright &copy; Multifinance Expert 2020</span>
+                        <span>Copyright &copy; Company</span>
                     </div>
                 </div>
             </footer>
